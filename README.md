@@ -50,6 +50,10 @@ This project is for educational purposes only.
 It is not affiliated with or endorsed by Amazon.  
 
 ---
+##  Demo video
+https://github.com/user-attachments/assets/c775ab32-ef90-4cb7-a170-c6a083c156a6
+
+---
 
 ## 📸 Screenshots
 
