@@ -9,7 +9,6 @@ This project is a frontend clone of the Amazon website built using HTML, CSS, an
 It replicates the layout, design, and basic functionality of Amazon’s homepage.
 The goal of this project is to practice web development skills, including responsive design and DOM manipulation.
 -------
-Demo Video:
 
 🚀 Features
 🛒 Amazon-style homepage layout
