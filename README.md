@@ -1,10 +1,9 @@
 # Lab-Mid-Amazon-Clone-Web-Technologies
-Lab Mid (Web Technologies)
 
 ---
 
 ## 📌 Project Title
-**Amazon Clone (Frontend Project)**
+**Amazon Clone**
 
 ---
 
