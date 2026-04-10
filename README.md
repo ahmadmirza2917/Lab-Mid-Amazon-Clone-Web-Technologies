@@ -18,10 +18,12 @@ Demo Video:
 🧭 Navigation bar similar to Amazon
 📱 Responsive design for different screen sizes
 🎯 Hover effects and interactive UI elements using JavaScript
+-------
 🛠️ Technologies Used
 HTML5 – Structure of the website
 CSS3 – Styling and layout (Flexbox/Grid)
 JavaScript – Interactivity and DOM manipulation
+-------
 📂 Project Structure
 . index.html
 🎯 Learning Objectives
@@ -29,9 +31,11 @@ Improve frontend development skills
 Understand responsive web design
 Practice layout techniques (Flexbox & Grid)
 Learn basic JavaScript interactions
+--------
 ⚠️ Disclaimer
 This project is for educational purposes only.
 It is not affiliated with or endorsed by Amazon.
+---------
 📸 Screenshots (Optional)
 
 <img width="1920" height="920" alt="Image" src="https://github.com/user-attachments/assets/0d9d3c23-a8f5-4db6-8bd4-3eaceec73c95" />
