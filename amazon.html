@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Amazon – Online Shopping</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+:root{--or:#FF9900;--dk:#131921;--bl:#232F3E;--lb:#37475A;--yw:#F0C14B;--rd:#B12704;--gn:#007600;--lk:#007185;--tx:#0F1111;--mu:#565959;--br:#D5D9D9;--bg:#EAEDED;--sh:0 2px 5px rgba(213,217,217,.5);}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:Arial,sans-serif;background:var(--bg);color:var(--tx);}
+a{text-decoration:none;color:inherit;}
+img{display:block;}
+button{cursor:pointer;font-family:inherit;}
+
+/* NAVBAR */
+.nav{background:var(--dk);display:flex;align-items:center;padding:0 8px;height:60px;gap:4px;position:sticky;top:0;z-index:1000;}
+.nb{border:2px solid transparent;border-radius:3px;padding:5px 8px;color:#fff;cursor:pointer;transition:border-color .15s;display:flex;flex-direction:column;justify-content:center;}
+.nb:hover{border-color:#fff;}
+
+/* LOGO */
+.logo-wrap{display:flex;flex-direction:column;align-items:center;min-width:90px;padding:4px 6px;}
+.amazon-logo-svg{width:80px;height:auto;}
+.logo-country{color:var(--or);font-size:10px;text-align:center;margin-top:1px;}
+
+/* DELIVERY */
+.del .d1{color:#ccc;font-size:11px;}
+.del .d2{font-size:13px;font-weight:700;}
+.del-btn{min-width:120px;}
+
+/* SEARCH BAR */
+.ns{flex:1;display:flex;height:40px;border-radius:4px;overflow:visible;max-width:800px;position:relative;}
+.ns-inner{display:flex;width:100%;border-radius:4px;overflow:hidden;}
+.sc{background:#F3F3F3;border:none;padding:0 6px;font-size:12px;width:56px;border-right:1px solid #ccc;}
+.si{flex:1;border:none;padding:0 11px;font-size:15px;outline:none;}
+.sb{background:var(--or);border:none;width:46px;color:#fff;font-size:17px;transition:background .15s;border-radius:0 4px 4px 0;}
+.sb:hover{background:#e47911;}
+
+/* LANGUAGE SELECT */
+.lang-wrap{display:flex;flex-direction:column;justify-content:center;min-width:60px;padding:4px 6px;}
+.lang-top{color:#ccc;font-size:10px;}
+.lang-select{background:transparent;border:none;color:#fff;font-size:13px;font-weight:700;cursor:pointer;outline:none;padding:0;}
+.lang-select option{background:var(--dk);color:#fff;}
+
+.nsi .s1{color:#ccc;font-size:11px;}
+.nsi .s2{font-size:13px;font-weight:700;}
+.nor .o1{color:#ccc;font-size:11px;}
+.nor .o2{font-size:13px;font-weight:700;}
+.nct{display:flex;align-items:center;gap:3px;}
+.ci{font-size:28px;position:relative;}
+.cc{position:absolute;top:0;left:18px;background:var(--or);color:var(--dk);border-radius:50%;width:19px;height:19px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;}
+.cl{font-size:13px;font-weight:700;}
+
+/* SUBNAV */
+.sn{background:var(--bl);display:flex;align-items:center;padding:0 8px;height:37px;gap:2px;overflow:hidden;}
+.sna{color:#fff;display:flex;align-items:center;gap:5px;padding:3px 10px;border:1px solid transparent;border-radius:2px;font-size:13px;font-weight:700;cursor:pointer;}
+.sna:hover{border-color:#fff;}
+.snl{color:#fff;font-size:13px;padding:3px 10px;border:1px solid transparent;border-radius:2px;white-space:nowrap;cursor:pointer;}
+.snl:hover{border-color:#fff;}
+.snd{color:#fff;font-size:13px;margin-left:auto;white-space:nowrap;}
+
+/* LOCATION MODAL */
+.loc-modal{position:fixed;top:60px;left:0;background:#fff;border:1px solid #ccc;border-radius:4px;box-shadow:0 6px 20px rgba(0,0,0,.2);z-index:2000;width:300px;padding:16px;display:none;}
+.loc-modal.show{display:block;}
+.loc-modal h3{font-size:15px;font-weight:700;margin-bottom:10px;}
+.loc-modal input{width:100%;border:1px solid #A6A6A6;border-radius:3px;padding:8px;font-size:14px;margin-bottom:8px;outline:none;}
+.loc-modal input:focus{border-color:#E77600;box-shadow:0 0 0 3px rgba(228,121,17,.25);}
+.loc-btn{width:100%;background:var(--yw);border:1px solid #A88734;border-radius:3px;padding:8px;font-size:13px;font-weight:700;margin-bottom:6px;}
+.loc-btn:hover{background:#F0C14B;}
+.loc-list{list-style:none;border-top:1px solid var(--br);padding-top:8px;margin-top:4px;}
+.loc-list li{padding:6px 0;font-size:13px;cursor:pointer;color:var(--lk);}
+.loc-list li:hover{text-decoration:underline;}
+
+/* SEARCH DROPDOWN */
+.sdrop{position:fixed;top:60px;background:#fff;border:1px solid #ccc;border-radius:0 0 6px 6px;z-index:1500;max-height:390px;overflow-y:auto;box-shadow:0 6px 16px rgba(0,0,0,.2);display:none;min-width:320px;}
+.sdrop.show{display:block;}
+.sdi{display:flex;align-items:center;gap:10px;padding:9px 14px;cursor:pointer;border-bottom:1px solid #f0f0f0;}
+.sdi:hover{background:#f5f5f5;}
+.sdi img{width:44px;height:44px;object-fit:contain;border:1px solid #eee;border-radius:3px;background:#f7f8f8;}
+.sdi-n{font-size:13px;line-height:1.3;}
+.sdi-p{color:var(--rd);font-weight:700;font-size:13px;}
+
+/* HERO */
+.hero{position:relative;height:340px;overflow:hidden;}
+.hs{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;}
+.hs.active{opacity:1;}
+.hs img{width:100%;height:100%;object-fit:cover;}
+.hov{position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.6),rgba(0,0,0,.05));}
+.htx{position:absolute;top:50%;left:48px;transform:translateY(-50%);}
+.htx h2{color:#fff;font-size:34px;text-shadow:1px 2px 8px rgba(0,0,0,.5);margin-bottom:8px;}
+.htx p{color:#eee;font-size:16px;margin-bottom:18px;}
+.hbtn{background:var(--yw);border:1px solid #a88734;padding:9px 20px;border-radius:3px;font-size:14px;font-weight:700;transition:background .15s,transform .1s;}
+.hbtn:hover{background:#ddb347;transform:scale(1.02);}
+.hn{position:absolute;top:50%;transform:translateY(-50%);background:rgba(255,255,255,.88);border:none;width:38px;height:58px;font-size:22px;z-index:5;}
+.hn:hover{background:#fff;}
+.hp{left:0;border-radius:0 4px 4px 0;}
+.hx{right:0;border-radius:4px 0 0 4px;}
+.hd{position:absolute;bottom:10px;left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:5;}
+.hdt{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.5);border:none;cursor:pointer;}
+.hdt.active{background:#fff;}
+.hfade{position:absolute;bottom:0;left:0;right:0;height:70px;background:linear-gradient(transparent,var(--bg));pointer-events:none;}
+
+/* MAIN */
+.wr{max-width:1500px;margin:0 auto;padding:0 14px;}
+
+/* DEAL TIMER */
+.db{background:#fff;border-radius:4px;padding:12px 16px;margin:10px 0;box-shadow:var(--sh);display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+.dtag{background:#CC0C39;color:#fff;padding:4px 10px;border-radius:3px;font-size:12px;font-weight:700;}
+.dlbl{font-size:18px;font-weight:700;color:#CC0C39;}
+.tmr{display:flex;align-items:center;gap:6px;margin-left:auto;}
+.tb{background:var(--dk);color:var(--or);padding:6px 10px;border-radius:4px;font-size:20px;font-weight:700;min-width:40px;text-align:center;}
+.ts{color:var(--dk);font-size:20px;font-weight:700;}
+
+/* PROMO */
+.pr{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;}
+.pc2{border-radius:6px;overflow:hidden;position:relative;height:155px;cursor:pointer;transition:transform .2s;}
+.pc2:hover{transform:scale(1.01);}
+.pc2 img{width:100%;height:100%;object-fit:cover;}
+.pov{position:absolute;inset:0;background:linear-gradient(to right,rgba(0,0,0,.62),rgba(0,0,0,.08));display:flex;flex-direction:column;justify-content:center;padding:20px;}
+.pov h3{color:#fff;font-size:18px;margin-bottom:5px;}
+.pov p{color:#ddd;font-size:13px;margin-bottom:12px;}
+.pov button{background:#fff;border:none;padding:6px 14px;border-radius:3px;font-size:13px;font-weight:700;width:fit-content;}
+.pov button:hover{background:#eee;}
+
+/* PRIME BANNER */
+.pb{background:linear-gradient(90deg,#00A8E1,#0057b8);color:#fff;padding:18px 24px;border-radius:4px;margin-bottom:14px;display:flex;align-items:center;gap:18px;box-shadow:var(--sh);}
+.pb h3{font-size:19px;margin-bottom:4px;}
+.pb p{font-size:13px;opacity:.9;}
+.pbt{background:#fff;color:#0057b8;border:none;padding:9px 20px;border-radius:20px;font-size:13px;font-weight:700;white-space:nowrap;margin-left:auto;transition:transform .15s;}
+.pbt:hover{transform:scale(1.03);}
+
+/* SECTION HEADING */
+.sh{display:flex;align-items:center;justify-content:space-between;margin:18px 0 12px;}
+.sh h2{font-size:21px;font-weight:700;}
+.sh a{color:var(--lk);font-size:13px;cursor:pointer;}
+.sh a:hover{color:#c7511f;text-decoration:underline;}
+
+/* CATEGORY GRID */
+.cg{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px;margin-bottom:16px;}
+.cc2{background:#fff;border-radius:4px;overflow:hidden;cursor:pointer;box-shadow:var(--sh);transition:transform .2s,box-shadow .2s;}
+.cc2:hover{transform:translateY(-3px);box-shadow:0 6px 18px rgba(0,0,0,.12);}
+.cc2 img{width:100%;height:110px;object-fit:cover;}
+.cc2 p{padding:8px 10px;font-size:13px;font-weight:700;}
+
+/* FILTER BAR */
+.fb2{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:14px;align-items:center;}
+.fbn{border:1px solid var(--br);background:#fff;padding:6px 14px;border-radius:20px;font-size:13px;transition:all .15s;}
+.fbn:hover,.fbn.act{background:var(--or);border-color:var(--or);color:#fff;}
+.ss{border:1px solid var(--br);padding:6px 10px;border-radius:4px;font-size:13px;margin-left:auto;}
+
+/* PRODUCTS GRID */
+.pg{display:grid;grid-template-columns:repeat(auto-fill,minmax(215px,1fr));gap:14px;margin-bottom:16px;}
+.pcard{background:#fff;border:1px solid var(--br);border-radius:4px;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;position:relative;animation:fu .4s ease both;}
+.pcard:hover{transform:translateY(-3px);box-shadow:0 8px 22px rgba(0,0,0,.13);}
+@keyframes fu{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+.pimg{position:relative;background:#F7F8F8;overflow:hidden;}
+.pimg img{width:100%;height:210px;object-fit:contain;padding:10px;transition:transform .3s;}
+.pcard:hover .pimg img{transform:scale(1.07);}
+.bdg{position:absolute;top:8px;left:8px;background:var(--rd);color:#fff;font-size:11px;padding:3px 7px;border-radius:2px;font-weight:700;}
+.bdg.nb2{background:#007600;}
+.bdg.pb2{background:#0F1111;}
+.wlb{position:absolute;top:8px;right:8px;background:#fff;border:1px solid var(--br);border-radius:50%;width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:14px;transition:color .2s,transform .2s;}
+.wlb:hover{transform:scale(1.15);color:red;}
+.wlb.on{color:red;}
+.pin{padding:10px 12px 12px;}
+.pn{font-size:13px;line-height:1.4;margin-bottom:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}
+.ppr{margin:5px 0 4px;}
+.psm{font-size:12px;vertical-align:top;margin-top:3px;display:inline-block;}
+.pwh{font-size:21px;font-weight:700;}
+.pod{color:var(--mu);font-size:12px;text-decoration:line-through;}
+.psv{color:var(--rd);font-size:12px;}
+.pst{font-size:12px;color:var(--gn);margin-bottom:7px;}
+.pst.low{color:var(--rd);}
+.atc{width:100%;background:var(--yw);border:1px solid #FCD200;border-radius:20px;padding:7px;font-size:13px;font-weight:500;transition:background .15s,transform .1s;}
+.atc:hover{background:#F0C14B;transform:scale(1.02);}
+.atc:active{transform:scale(.98);}
+
+/* CART SIDEBAR */
+.cov{position:fixed;inset:0;background:rgba(0,0,0,.5);z-index:2000;opacity:0;pointer-events:none;transition:opacity .3s;}
+.cov.open{opacity:1;pointer-events:all;}
+.csb{position:fixed;top:0;right:-430px;width:430px;height:100vh;background:#fff;z-index:2001;display:flex;flex-direction:column;transition:right .3s cubic-bezier(.4,0,.2,1);box-shadow:-4px 0 20px rgba(0,0,0,.15);}
+.csb.open{right:0;}
+.chd{background:var(--dk);color:#fff;padding:14px 18px;display:flex;align-items:center;justify-content:space-between;}
+.chd h2{font-size:17px;}
+.xcl{background:none;border:none;color:#fff;font-size:20px;}
+.cbody{flex:1;overflow-y:auto;padding:10px;}
+.ci2{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--br);animation:fu .3s ease;}
+.ci2 img{width:80px;height:80px;object-fit:contain;border:1px solid var(--br);border-radius:3px;background:#F7F8F8;flex-shrink:0;}
+.cid{flex:1;}
+.cin{font-size:12px;line-height:1.4;margin-bottom:3px;}
+.cip{color:var(--rd);font-weight:700;font-size:14px;}
+.qc{display:flex;align-items:center;gap:7px;margin-top:5px;}
+.qb{background:#F0F2F2;border:1px solid var(--br);width:25px;height:25px;border-radius:3px;font-size:13px;transition:background .1s;}
+.qb:hover{background:var(--or);color:#fff;border-color:var(--or);}
+.qd{font-size:13px;font-weight:700;min-width:18px;text-align:center;}
+.rb{color:var(--lk);font-size:12px;background:none;border:none;margin-top:3px;}
+.rb:hover{text-decoration:underline;color:#c7511f;}
+.cft{border-top:1px solid var(--br);padding:14px;background:#F7F8F8;}
+.csub{font-size:17px;margin-bottom:10px;}
+.csub span{font-weight:700;}
+.co{width:100%;background:var(--yw);border:1px solid #FCD200;border-radius:20px;padding:10px;font-size:14px;font-weight:700;margin-bottom:7px;}
+.co:hover{background:#F0C14B;}
+.ec{text-align:center;padding:40px 20px;color:var(--mu);}
+.ec i{font-size:55px;margin-bottom:12px;color:var(--br);}
+
+/* MODAL */
+.mo{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:3000;display:flex;align-items:center;justify-content:center;opacity:0;pointer-events:none;transition:opacity .2s;}
+.mo.open{opacity:1;pointer-events:all;}
+.mb{background:#fff;border-radius:8px;padding:22px;width:400px;max-width:92vw;transform:scale(.92);transition:transform .2s;max-height:92vh;overflow-y:auto;position:relative;}
+.mo.open .mb{transform:scale(1);}
+.mb h2{text-align:center;margin-bottom:18px;color:var(--dk);}
+.mbl{text-align:center;margin-bottom:8px;}
+.fg{margin-bottom:13px;}
+.fg label{display:block;font-size:13px;font-weight:700;margin-bottom:3px;}
+.fg input{width:100%;border:1px solid #A6A6A6;border-radius:3px;padding:8px 10px;font-size:14px;outline:none;transition:border-color .15s,box-shadow .15s;}
+.fg input:focus{border-color:#E77600;box-shadow:0 0 0 3px rgba(228,121,17,.25);}
+.fg input.err-inp{border-color:var(--rd);background:#fff8f8;}
+.fg .err-msg{color:var(--rd);font-size:11px;margin-top:3px;display:none;}
+.fg .err-msg.show{display:block;}
+.mbbtn{width:100%;background:var(--yw);border:1px solid #A88734;border-radius:3px;padding:9px;font-size:14px;font-weight:700;margin-bottom:8px;}
+.mbbtn:hover{background:#F0C14B;}
+.mdiv{text-align:center;color:var(--mu);font-size:12px;margin:10px 0;position:relative;}
+.mdiv::before{content:'';position:absolute;top:50%;left:0;right:0;height:1px;background:var(--br);}
+.mdiv span{background:#fff;padding:0 8px;position:relative;}
+.mcl{position:absolute;top:11px;right:14px;background:none;border:none;font-size:19px;color:var(--mu);}
+
+/* PRODUCT DETAIL */
+.dov{position:fixed;inset:0;background:#fff;z-index:4000;overflow-y:auto;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);}
+.dov.open{transform:translateX(0);}
+.dbk{display:flex;align-items:center;gap:7px;color:var(--lk);padding:11px 20px;border-bottom:1px solid var(--br);background:#F7F8F8;font-size:14px;cursor:pointer;}
+.dbk:hover{text-decoration:underline;color:#c7511f;}
+.dw{max-width:1200px;margin:0 auto;padding:20px;}
+.dgrid{display:grid;grid-template-columns:420px 1fr 300px;gap:24px;}
+.dim .mi{width:100%;aspect-ratio:1;object-fit:contain;border:1px solid var(--br);border-radius:6px;background:#F7F8F8;padding:16px;margin-bottom:10px;}
+.tr{display:flex;gap:7px;flex-wrap:wrap;}
+.th{width:58px;height:58px;object-fit:contain;border:2px solid var(--br);border-radius:4px;padding:3px;background:#fff;cursor:pointer;}
+.th:hover,.th.act{border-color:var(--or);}
+.di .br{color:var(--lk);font-size:13px;margin-bottom:4px;}
+.di h1{font-size:22px;line-height:1.4;margin-bottom:8px;}
+.drt{display:flex;align-items:center;gap:8px;padding-bottom:12px;border-bottom:1px solid var(--br);margin-bottom:12px;}
+.dpr .sy{font-size:13px;vertical-align:top;margin-top:4px;display:inline-block;}
+.dpr .bg{font-size:28px;font-weight:700;}
+.dw2{font-size:13px;color:var(--mu);}
+.dsv{color:var(--rd);font-size:13px;font-weight:700;}
+.dft h3{font-size:15px;margin-bottom:8px;}
+.dft ul{list-style:disc;padding-left:18px;font-size:13px;line-height:2;}
+.bbx{border:1px solid var(--br);border-radius:8px;padding:15px;height:fit-content;position:sticky;top:70px;}
+.bprice{font-size:24px;font-weight:700;margin-bottom:6px;}
+.bdel{font-size:13px;color:var(--gn);margin-bottom:3px;}
+.bstk{color:var(--gn);font-size:15px;font-weight:700;margin-bottom:10px;}
+.bqty{border:1px solid var(--br);border-radius:4px;padding:7px;width:100%;font-size:13px;margin-bottom:10px;}
+.batc{width:100%;background:var(--yw);border:1px solid #FCD200;border-radius:20px;padding:10px;font-size:14px;font-weight:700;margin-bottom:7px;transition:background .15s,transform .1s;}
+.batc:hover{background:#F0C14B;transform:scale(1.01);}
+.bnow{width:100%;background:#FF9900;border:1px solid #E47911;border-radius:20px;padding:10px;font-size:14px;font-weight:700;color:var(--tx);transition:background .15s;}
+.bnow:hover{background:#e47911;}
+.bsec{display:flex;align-items:center;gap:5px;font-size:12px;color:var(--mu);justify-content:center;margin-top:9px;}
+.rvs{border-top:1px solid var(--br);padding-top:20px;margin-top:24px;}
+.rvs h2{font-size:19px;margin-bottom:14px;}
+.rvi{border-bottom:1px solid var(--br);padding:14px 0;}
+.rvhd{display:flex;align-items:center;gap:9px;margin-bottom:7px;}
+.rvav{width:34px;height:34px;border-radius:50%;background:var(--or);color:#fff;display:flex;align-items:center;justify-content:center;font-weight:700;font-size:13px;flex-shrink:0;}
+.rvnm{font-weight:700;font-size:13px;}
+.rvdt{color:var(--mu);font-size:12px;}
+.rvtl{font-weight:700;font-size:13px;margin-bottom:4px;}
+.rvtx{font-size:13px;color:var(--mu);line-height:1.6;}
+
+/* RECENTLY VIEWED */
+.rec{background:#fff;border-radius:4px;padding:14px;margin-bottom:14px;box-shadow:var(--sh);}
+.recr{display:flex;gap:10px;overflow-x:auto;padding-bottom:6px;}
+.reci{min-width:110px;cursor:pointer;text-align:center;padding:7px;border:1px solid transparent;border-radius:4px;transition:border-color .15s;}
+.reci:hover{border-color:var(--or);}
+.reci img{width:100%;height:90px;object-fit:contain;}
+.reci p{font-size:12px;color:var(--lk);margin-top:3px;}
+
+/* TOAST */
+.tw{position:fixed;bottom:22px;right:22px;z-index:9999;display:flex;flex-direction:column;gap:7px;}
+.tst{background:var(--dk);color:#fff;padding:11px 18px;border-radius:6px;font-size:13px;display:flex;align-items:center;gap:9px;box-shadow:0 4px 14px rgba(0,0,0,.3);animation:tIn .3s ease,tOut .3s ease 2.7s forwards;max-width:310px;}
+.tst.ok{border-left:4px solid var(--gn);}
+.tst.err{border-left:4px solid var(--rd);}
+@keyframes tIn{from{opacity:0;transform:translateX(50px)}to{opacity:1;transform:translateX(0)}}
+@keyframes tOut{from{opacity:1;transform:translateX(0)}to{opacity:0;transform:translateX(50px)}}
+
+/* FOOTER */
+.ftop{background:#37475A;color:#fff;padding:14px;text-align:center;cursor:pointer;font-size:13px;}
+.ftop:hover{background:#485769;}
+.flinks{background:var(--dk);color:#fff;padding:28px 40px;display:grid;grid-template-columns:repeat(4,1fr);gap:22px;}
+.fc2 h4{font-size:14px;margin-bottom:10px;}
+.fc2 ul{list-style:none;}
+.fc2 ul li{margin-bottom:7px;font-size:13px;color:#ccc;cursor:pointer;}
+.fc2 ul li:hover{text-decoration:underline;color:#fff;}
+.fbot{background:var(--dk);border-top:1px solid #3A4553;padding:14px;text-align:center;color:#aaa;font-size:12px;}
+.fbot-logo{display:flex;align-items:center;justify-content:center;margin-bottom:6px;}
+
+/* NO RESULTS */
+.nr{grid-column:1/-1;text-align:center;padding:44px 20px;color:var(--mu);}
+.nr i{font-size:44px;margin-bottom:12px;display:block;}
+
+/* PASSWORD STRENGTH */
+.pw-strength{height:4px;border-radius:2px;margin-top:5px;transition:all .3s;}
+.pw-weak{background:#B12704;width:33%;}
+.pw-medium{background:#FF9900;width:66%;}
+.pw-strong{background:#007600;width:100%;}
+.pw-label{font-size:11px;margin-top:2px;}
+
+@media(max-width:900px){.dgrid{grid-template-columns:1fr 1fr;}.dgrid>div:last-child{grid-column:1/-1;}.flinks{grid-template-columns:1fr 1fr;}.pr{grid-template-columns:1fr;}}
+@media(max-width:600px){.dgrid{grid-template-columns:1fr;}.htx h2{font-size:22px;}.htx{left:18px;}}
+</style>
+</head>
+<body>
+
+<div class="sdrop" id="sdrop"></div>
+
+<!-- LOCATION MODAL -->
+<div class="loc-modal" id="locModal">
+  <button style="position:absolute;top:8px;right:10px;background:none;border:none;font-size:16px;cursor:pointer;color:var(--mu)" onclick="closeLoc()">✕</button>
+  <h3><i class="fa-solid fa-location-dot" style="color:var(--or)"></i> Choose your location</h3>
+  <p style="font-size:12px;color:var(--mu);margin-bottom:10px">Delivery options and speeds may vary by location</p>
+  <input type="text" id="locInput" placeholder="Enter PIN code or city name">
+  <button class="loc-btn" onclick="setLocation()">Apply</button>
+  <ul class="loc-list">
+    <li onclick="pickLoc('Karachi')"><i class="fa-solid fa-city" style="font-size:11px;margin-right:5px"></i>Karachi</li>
+    <li onclick="pickLoc('Lahore')"><i class="fa-solid fa-city" style="font-size:11px;margin-right:5px"></i>Lahore</li>
+    <li onclick="pickLoc('Islamabad')"><i class="fa-solid fa-city" style="font-size:11px;margin-right:5px"></i>Islamabad</li>
+    <li onclick="pickLoc('Rawalpindi')"><i class="fa-solid fa-city" style="font-size:11px;margin-right:5px"></i>Rawalpindi</li>
+    <li onclick="pickLoc('Peshawar')"><i class="fa-solid fa-city" style="font-size:11px;margin-right:5px"></i>Peshawar</li>
+    <li onclick="pickLoc('Multan')"><i class="fa-solid fa-city" style="font-size:11px;margin-right:5px"></i>Multan</li>
+    <li onclick="pickLoc('Faisalabad')"><i class="fa-solid fa-city" style="font-size:11px;margin-right:5px"></i>Faisalabad</li>
+    <li onclick="pickLoc('Quetta')"><i class="fa-solid fa-city" style="font-size:11px;margin-right:5px"></i>Quetta</li>
+    <li onclick="pickLoc('London, UK')"><i class="fa-solid fa-globe" style="font-size:11px;margin-right:5px"></i>London, UK</li>
+    <li onclick="pickLoc('New York, US')"><i class="fa-solid fa-globe" style="font-size:11px;margin-right:5px"></i>New York, US</li>
+    <li onclick="pickLoc('Dubai, UAE')"><i class="fa-solid fa-globe" style="font-size:11px;margin-right:5px"></i>Dubai, UAE</li>
+  </ul>
+</div>
+
+<!-- NAVBAR -->
+<nav class="nav">
+  <!-- LOGO -->
+  <div class="nb logo-wrap" onclick="goHome()" style="flex-direction:column;align-items:center;">
+    <svg class="amazon-logo-svg" viewBox="0 0 603 182" xmlns="http://www.w3.org/2000/svg" fill="#fff">
+      <path d="M372.5 140c-32.8 24.2-80.3 37.1-121.2 37.1-57.4 0-109-21.2-148.1-56.4-3.1-2.8-.3-6.6 3.4-4.4 42.2 24.5 94.3 39.3 148.2 39.3 36.3 0 76.2-7.5 112.9-23.1 5.5-2.3 10.2 3.6 4.8 7.5z"/>
+      <path d="M386 124.6c-4.2-5.4-27.9-2.5-38.5-1.3-3.2.4-3.7-2.4-.8-4.4 18.9-13.2 49.7-9.4 53.3-5 3.6 4.5-1 35.3-18.6 50-2.7 2.3-5.3 1.1-4.1-1.9 4-9.9 12.9-32 8.7-37.4z"/>
+      <path d="M346.7 19.9V7.5c0-1.8 1.4-3 3-3h53.3c1.7 0 3.1 1.3 3.1 3v10.6c0 1.7-1.4 3.8-4 7.2l-27.6 39.4c10.3-.3 21.1 1.3 30.4 6.4 2.1 1.2 2.6 2.9 2.8 4.6v13.2c0 1.7-1.9 3.7-3.8 2.7-16-8.4-37.2-9.3-54.8.1-1.8 1-3.8-.9-3.8-2.6V76.2c0-1.9 0-5.1 1.9-7.9l32-45.9h-27.8c-1.7 0-3.1-1.3-3.1-2.9z"/>
+      <path d="M123.6 93.6h-16.2c-1.5-.1-2.8-1.3-2.9-2.8V7.7c0-1.7 1.4-3 3.2-3h15.1c1.6.1 2.8 1.3 2.9 2.9v10.9h.3c3.9-10.6 11.3-15.5 21.3-15.5 10.1 0 16.5 4.9 21 15.5 3.9-10.6 12.9-15.5 22.4-15.5 6.8 0 14.2 2.8 18.8 9.1 5.1 7 4.1 17.1 4.1 26v52.7c0 1.7-1.4 3-3.2 3h-16.2c-1.6-.1-2.9-1.4-2.9-3V44.2c0-3.5.3-12.2-.5-15.5-1.2-5.6-4.9-7.2-9.6-7.2-4 0-8.1 2.7-9.8 6.9-1.7 4.3-1.5 11.4-1.5 15.8v46.6c0 1.7-1.4 3-3.2 3h-16.2c-1.6-.1-2.9-1.4-2.9-3l-.1-46.6c0-9.8 1.6-24.3-10.1-24.3-11.8 0-11.4 14.1-11.4 24.3v46.6c0 1.7-1.4 3-3.2 3z"/>
+      <path d="M449.4 2.9c24.4 0 37.6 21 37.6 47.6 0 27.7-15.7 48.2-37.6 48.2-23.9 0-36.9-21-36.9-47 0-26.2 13.2-48.8 36.9-48.8zm.1 18c-12.1 0-12.8 16.5-12.8 26.8s-.2 32.3 12.7 32.3c12.7 0 13.3-17.7 13.3-28.5 0-7.1-.3-15.5-2.5-22.2-1.9-5.9-5.7-8.4-10.7-8.4z"/>
+      <path d="M519.2 93.6h-16.1c-1.6-.1-2.9-1.4-2.9-3V7.5c.1-1.6 1.5-2.8 3.2-2.8h15c1.5.1 2.7 1.1 2.9 2.5v12.8h.3c4.5-11.5 10.8-17 21.9-17 7.2 0 14.2 2.6 18.7 9.7 4.2 6.6 4.2 17.8 4.2 25.7v52.7c-.2 1.5-1.5 2.7-3.2 2.7h-16.2c-1.5-.1-2.8-1.3-2.9-2.7V43.6c0-9.7 1.1-23.8-10.2-23.8-4 0-7.7 2.7-9.5 6.8-2.3 5.1-2.6 10.2-2.6 17v47c0 1.7-1.5 3-3.2 3z"/>
+      <path d="M300.5 53.5v-4.6c-16.5 0-34 3.5-34 22.9 0 9.8 5.1 16.5 13.8 16.5 6.4 0 12.1-3.9 15.7-10.4 4.4-7.9 4.5-15.4 4.5-24.4zm22.2 53.7c-1.5 1.3-3.6 1.4-5.3.5-7.4-6.2-8.8-9-12.9-14.8-12.3 12.5-21.1 16.3-37 16.3-18.9 0-33.7-11.7-33.7-35 0-18.2 9.9-30.6 23.9-36.7 12.2-5.4 29.2-6.3 42.2-7.8V27c0-5.1.4-11.2-2.6-15.6-2.6-4-7.7-5.7-12.2-5.7-8.3 0-15.7 4.3-17.5 13.1-.4 1.9-1.8 3.8-3.8 3.9l-15.7-1.7c-1.7-.4-3.5-1.7-3-4.2C270.9 5.3 291.5 0 310.1 0c9.5 0 21.9 2.5 29.4 9.7 9.5 8.8 8.6 20.6 8.6 33.4v30.2c0 9.1 3.8 13.1 7.3 18 1.2 1.8 1.5 3.9-.1 5.2-4 3.4-11.1 9.6-15 13.1l-.1-.2z"/>
+      <path d="M55.8 53.5v-4.6c-16.5 0-34 3.5-34 22.9 0 9.8 5.1 16.5 13.8 16.5 6.4 0 12.1-3.9 15.7-10.4 4.4-7.9 4.5-15.4 4.5-24.4zm22.2 53.7c-1.5 1.3-3.6 1.4-5.3.5-7.4-6.2-8.8-9-12.9-14.8C47.5 105.4 38.7 109.2 22.8 109.2 3.9 109.2-10.9 97.5-10.9 74.2c0-18.2 9.9-30.6 23.9-36.7 12.2-5.4 29.2-6.3 42.2-7.8V27c0-5.1.4-11.2-2.6-15.6-2.6-4-7.7-5.7-12.2-5.7-8.3 0-15.7 4.3-17.5 13.1-.4 1.9-1.8 3.8-3.8 3.9L3.4 21c-1.7-.4-3.5-1.7-3-4.2C5.2 5.3 25.8 0 44.4 0c9.5 0 21.9 2.5 29.4 9.7 9.5 8.8 8.6 20.6 8.6 33.4v30.2c0 9.1 3.8 13.1 7.3 18 1.2 1.8 1.5 3.9-.1 5.2-4 3.4-11.1 9.6-15 13.1l-.1-.2z"/>
+    </svg>
+    <div class="logo-country">.com</div>
+  </div>
+
+  <!-- DELIVERY LOCATION (left of search) -->
+  <div class="nb del del-btn" id="delBtn" onclick="toggleLoc()">
+    <div class="d1"><i class="fa-solid fa-location-dot"></i> Deliver to</div>
+    <div class="d2" id="delLoc">Select location</div>
+  </div>
+
+  <!-- SEARCH BAR -->
+  <div class="ns" style="position:relative">
+    <div class="ns-inner">
+      <select class="sc" id="sc">
+        <option>All</option><option>Electronics</option><option>Clothing</option>
+        <option>Books</option><option>Sports</option><option>Kitchen</option>
+      </select>
+      <input class="si" id="si" type="search" placeholder="Search Amazon"
+        oninput="liveS(this.value)" onkeydown="if(event.key==='Enter')doS()">
+      <button class="sb" onclick="doS()"><i class="fa-solid fa-magnifying-glass"></i></button>
+    </div>
+  </div>
+
+  <!-- LANGUAGE (right of search) -->
+  <div class="nb lang-wrap" title="Language">
+    <div class="lang-top"><i class="fa-solid fa-globe" style="font-size:14px"></i></div>
+    <select class="lang-select" id="langSel" onchange="changeLang(this.value)">
+      <option value="en">EN</option>
+      <option value="ur">اردو</option>
+      <option value="ar">العربية</option>
+      <option value="fr">FR</option>
+      <option value="de">DE</option>
+      <option value="zh">中文</option>
+      <option value="es">ES</option>
+      <option value="hi">हिन्दी</option>
+      <option value="tr">TR</option>
+      <option value="ja">日本語</option>
+    </select>
+  </div>
+
+  <!-- ACCOUNT -->
+  <div class="nb nsi" onclick="openAuth()">
+    <div class="s1" id="nhi">Hello, sign in</div>
+    <div class="s2">Account &amp; Lists ▾</div>
+  </div>
+
+  <!-- ORDERS -->
+  <div class="nb nor" onclick="openOrd()">
+    <div class="o1">Returns</div>
+    <div class="o2">&amp; Orders</div>
+  </div>
+
+  <!-- CART -->
+  <div class="nb nct" onclick="openCart()">
+    <div class="ci"><i class="fa-solid fa-cart-shopping"></i><span class="cc" id="cc">0</span></div>
+    <div class="cl">Cart</div>
+  </div>
+</nav>
+
+<!-- SUBNAV -->
+<div class="sn">
+  <div class="sna"><i class="fa-solid fa-bars"></i> All</div>
+  <div class="snl" onclick="fcat('all',this)">Today's Deals</div>
+  <div class="snl" onclick="fcat('electronics',this)">Electronics</div>
+  <div class="snl" onclick="fcat('clothing',this)">Fashion</div>
+  <div class="snl" onclick="fcat('sports',this)">Sports</div>
+  <div class="snl" onclick="fcat('kitchen',this)">Kitchen</div>
+  <div class="snl" onclick="fcat('books',this)">Books</div>
+  <div class="snl" onclick="toast('Gift Cards coming soon!','ok')">Gift Cards</div>
+  <div class="snl" onclick="openSell()">Sell</div>
+  <div class="snl" onclick="openCustomerService()">Customer Service</div>
+  <div class="snl" onclick="openPrime()">Prime</div>
+  <div class="snd">⚡ Shop deals in Electronics</div>
+</div>
+
+<!-- HERO -->
+<div class="hero" id="hero">
+  <div class="hs active">
+    <img src="https://images.unsplash.com/photo-1519389950473-47ba0277781c?w=1500&q=80" alt="Electronics">
+    <div class="hov"></div>
+    <div class="htx"><h2>Biggest Electronics Sale</h2><p>Up to 70% off on Laptops, Phones &amp; Accessories</p><button class="hbtn" onclick="fcat('electronics')">Shop Electronics</button></div>
+  </div>
+  <div class="hs">
+    <img src="https://images.unsplash.com/photo-1445205170230-053b83016050?w=1500&q=80" alt="Fashion">
+    <div class="hov"></div>
+    <div class="htx"><h2>Fashion Forward</h2><p>New arrivals — up to 60% off on top brands</p><button class="hbtn" onclick="fcat('clothing')">Explore Fashion</button></div>
+  </div>
+  <div class="hs">
+    <img src="https://images.unsplash.com/photo-1571019613454-1cb2f99b2d8b?w=1500&q=80" alt="Sports">
+    <div class="hov"></div>
+    <div class="htx"><h2>Sports &amp; Fitness</h2><p>Gear up for peak performance this season</p><button class="hbtn" onclick="fcat('sports')">Shop Sports</button></div>
+  </div>
+  <div class="hs">
+    <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=1500&q=80" alt="Kitchen">
+    <div class="hov"></div>
+    <div class="htx"><h2>Kitchen Essentials</h2><p>Everything you need to cook like a pro</p><button class="hbtn" onclick="fcat('kitchen')">Shop Kitchen</button></div>
+  </div>
+  <button class="hn hp" onclick="sl(-1)">&#8249;</button>
+  <button class="hn hx" onclick="sl(1)">&#8250;</button>
+  <div class="hd" id="hd"></div>
+  <div class="hfade"></div>
+</div>
+
+<div class="wr">
+
+<!-- DEAL TIMER -->
+<div class="db">
+  <span class="dtag">⚡ DEAL</span>
+  <span class="dlbl">Deal of the Day ends in:</span>
+  <div class="tmr">
+    <div class="tb" id="tH">08</div><div class="ts">:</div>
+    <div class="tb" id="tM">44</div><div class="ts">:</div>
+    <div class="tb" id="tS">59</div>
+  </div>
+</div>
+
+<!-- PROMO -->
+<div class="pr">
+  <div class="pc2" onclick="fcat('electronics')">
+    <img src="https://images.unsplash.com/photo-1468495244123-6c6c332eeece?w=800&q=80" alt="Tech">
+    <div class="pov"><h3>Tech Deals</h3><p>Laptops, Phones &amp; Accessories</p><button>Shop Now</button></div>
+  </div>
+  <div class="pc2" onclick="fcat('kitchen')">
+    <img src="https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=800&q=80" alt="Kitchen">
+    <div class="pov"><h3>Kitchen Sale</h3><p>Up to 50% off on cookware &amp; appliances</p><button>Explore</button></div>
+  </div>
+</div>
+
+<!-- PRIME -->
+<div class="pb">
+  <div style="font-size:38px;opacity:.9"><i class="fa-brands fa-amazon"></i></div>
+  <div><h3>Try Prime FREE for 30 days</h3><p>Fast delivery · Exclusive deals · Prime Video &amp; more</p></div>
+  <button class="pbt" onclick="openPrime()">Start Free Trial</button>
+</div>
+
+<!-- CATEGORIES -->
+<div class="sh"><h2>Shop by Category</h2></div>
+<div class="cg" id="cg"></div>
+
+<!-- FILTER -->
+<div class="sh"><h2>All Products</h2><a onclick="goHome()">See all</a></div>
+<div class="fb2" id="fb">
+  <button class="fbn act" onclick="fcat('all',this)">All</button>
+  <button class="fbn" onclick="fcat('electronics',this)">Electronics</button>
+  <button class="fbn" onclick="fcat('clothing',this)">Clothing</button>
+  <button class="fbn" onclick="fcat('sports',this)">Sports</button>
+  <button class="fbn" onclick="fcat('kitchen',this)">Kitchen</button>
+  <button class="fbn" onclick="fcat('books',this)">Books</button>
+  <select class="ss" id="ss" onchange="applyF()">
+    <option value="">Sort: Featured</option>
+    <option value="pl">Price: Low → High</option>
+    <option value="ph">Price: High → Low</option>
+    <option value="rt">Avg. Rating</option>
+    <option value="nw">Newest</option>
+  </select>
+</div>
+<div class="pg" id="pg"></div>
+
+<!-- RECENTLY VIEWED -->
+<div class="rec" id="recSec" style="display:none">
+  <div class="sh" style="margin:0 0 10px"><h2>Recently Viewed</h2></div>
+  <div class="recr" id="recr"></div>
+</div>
+
+</div><!-- end .wr -->
+
+<!-- FOOTER -->
+<div class="ftop" onclick="scrollTo({top:0,behavior:'smooth'})">↑ Back to top</div>
+<div class="flinks">
+  <div class="fc2">
+    <h4>Get to Know Us</h4>
+    <ul>
+      <li onclick="openInfo('About Amazon','Amazon is one of the world\'s largest e-commerce and technology companies, founded in 1994 by Jeff Bezos in Bellevue, Washington.')">About Amazon</li>
+      <li onclick="openInfo('Careers at Amazon','Amazon offers thousands of job opportunities worldwide. Visit amazon.jobs to explore opportunities in technology, operations, corporate roles and more.')">Careers</li>
+      <li onclick="openInfo('Press Releases','Amazon press releases and media resources are available at press.aboutamazon.com. Stay updated on company announcements and milestones.')">Press Releases</li>
+      <li onclick="openInfo('Amazon Science','Amazon Science shares Amazon\'s approach to customer-obsessed science. Explore research areas including machine learning, robotics, and more.')">Amazon Science</li>
+      <li onclick="openInfo('Investor Relations','Amazon investor relations information, annual reports, and financial data can be found at ir.aboutamazon.com.')">Investor Relations</li>
+    </ul>
+  </div>
+  <div class="fc2">
+    <h4>Make Money with Us</h4>
+    <ul>
+      <li onclick="openSell()">Sell products on Amazon</li>
+      <li onclick="openInfo('Amazon Associates','The Amazon Associates program lets you earn up to 10% in associate commissions from qualifying purchases and programs. Join for free and start earning!')">Become an Affiliate</li>
+      <li onclick="openInfo('Advertise Your Products','Amazon Advertising helps you connect with the right audience. Reach millions of Amazon customers with sponsored ads, display ads, and video ads.')">Advertise Your Products</li>
+      <li onclick="openInfo('Self-Publish with Us','Amazon Kindle Direct Publishing lets you self-publish eBooks, paperbacks, and hardcovers for free. Earn up to 70% royalty on sales.')">Self-Publish with KDP</li>
+      <li onclick="openInfo('Amazon Flex','Earn money on your own schedule delivering packages with Amazon Flex. Earn $18–$25/hour delivering packages using your own vehicle.')">Become a Delivery Driver</li>
+    </ul>
+  </div>
+  <div class="fc2">
+    <h4>Payment Products</h4>
+    <ul>
+      <li onclick="openInfo('Amazon Business Card','The Amazon Business Prime American Express Card offers 5% back on U.S. purchases at Amazon Business. No annual fee for Prime members.')">Amazon Business Card</li>
+      <li onclick="openInfo('Shop with Points','You can now use your credit card points to pay for Amazon purchases. Link your eligible card and choose to pay with points at checkout.')">Shop with Points</li>
+      <li onclick="openInfo('Reload Your Balance','Add money to your Amazon balance using your bank account or credit card. A convenient way to pay for Amazon purchases.')">Reload Your Balance</li>
+      <li onclick="openInfo('Amazon Currency Converter','Shop internationally with Amazon Currency Converter. See prices and pay in your local currency when ordering from international stores.')">Currency Converter</li>
+      <li onclick="openInfo('Amazon Pay','Amazon Pay makes checkout simple and secure. Use the information stored in your Amazon account to checkout on thousands of websites.')">Amazon Pay</li>
+    </ul>
+  </div>
+  <div class="fc2">
+    <h4>Let Us Help You</h4>
+    <ul>
+      <li onclick="openAuth()">Your Account</li>
+      <li onclick="openOrd()">Your Orders</li>
+      <li onclick="openInfo('Shipping Rates &amp; Policies','Free shipping on eligible orders over $25. Prime members get FREE Two-Day Shipping. Same-Day delivery is available in select cities.')">Shipping Rates &amp; Policies</li>
+      <li onclick="openInfo('Returns &amp; Replacements','Most items sold on Amazon can be returned within 30 days of receipt of delivery. Items sold by Amazon are eligible for free returns.')">Returns &amp; Replacements</li>
+      <li onclick="openInfo('Manage Your Content &amp; Devices','Manage your Amazon content and devices including Kindle books, apps, audiobooks, music and more from your Amazon account settings.')">Manage Your Content</li>
+      <li onclick="openInfo('Amazon Assistant','The Amazon Assistant browser extension helps you compare products, track orders, see deals, and get personalized recommendations.')">Amazon Assistant</li>
+      <li onclick="openCustomerService()">Help</li>
+    </ul>
+  </div>
+</div>
+<div class="fbot">
+  <div class="fbot-logo">
+    <svg viewBox="0 0 603 182" xmlns="http://www.w3.org/2000/svg" fill="#fff" width="90" height="28">
+      <path d="M372.5 140c-32.8 24.2-80.3 37.1-121.2 37.1-57.4 0-109-21.2-148.1-56.4-3.1-2.8-.3-6.6 3.4-4.4 42.2 24.5 94.3 39.3 148.2 39.3 36.3 0 76.2-7.5 112.9-23.1 5.5-2.3 10.2 3.6 4.8 7.5z"/>
+      <path d="M386 124.6c-4.2-5.4-27.9-2.5-38.5-1.3-3.2.4-3.7-2.4-.8-4.4 18.9-13.2 49.7-9.4 53.3-5 3.6 4.5-1 35.3-18.6 50-2.7 2.3-5.3 1.1-4.1-1.9 4-9.9 12.9-32 8.7-37.4z"/>
+      <path d="M346.7 19.9V7.5c0-1.8 1.4-3 3-3h53.3c1.7 0 3.1 1.3 3.1 3v10.6c0 1.7-1.4 3.8-4 7.2l-27.6 39.4c10.3-.3 21.1 1.3 30.4 6.4 2.1 1.2 2.6 2.9 2.8 4.6v13.2c0 1.7-1.9 3.7-3.8 2.7-16-8.4-37.2-9.3-54.8.1-1.8 1-3.8-.9-3.8-2.6V76.2c0-1.9 0-5.1 1.9-7.9l32-45.9h-27.8c-1.7 0-3.1-1.3-3.1-2.9z"/>
+      <path d="M123.6 93.6h-16.2c-1.5-.1-2.8-1.3-2.9-2.8V7.7c0-1.7 1.4-3 3.2-3h15.1c1.6.1 2.8 1.3 2.9 2.9v10.9h.3c3.9-10.6 11.3-15.5 21.3-15.5 10.1 0 16.5 4.9 21 15.5 3.9-10.6 12.9-15.5 22.4-15.5 6.8 0 14.2 2.8 18.8 9.1 5.1 7 4.1 17.1 4.1 26v52.7c0 1.7-1.4 3-3.2 3h-16.2c-1.6-.1-2.9-1.4-2.9-3V44.2c0-3.5.3-12.2-.5-15.5-1.2-5.6-4.9-7.2-9.6-7.2-4 0-8.1 2.7-9.8 6.9-1.7 4.3-1.5 11.4-1.5 15.8v46.6c0 1.7-1.4 3-3.2 3h-16.2c-1.6-.1-2.9-1.4-2.9-3l-.1-46.6c0-9.8 1.6-24.3-10.1-24.3-11.8 0-11.4 14.1-11.4 24.3v46.6c0 1.7-1.4 3-3.2 3z"/>
+      <path d="M449.4 2.9c24.4 0 37.6 21 37.6 47.6 0 27.7-15.7 48.2-37.6 48.2-23.9 0-36.9-21-36.9-47 0-26.2 13.2-48.8 36.9-48.8zm.1 18c-12.1 0-12.8 16.5-12.8 26.8s-.2 32.3 12.7 32.3c12.7 0 13.3-17.7 13.3-28.5 0-7.1-.3-15.5-2.5-22.2-1.9-5.9-5.7-8.4-10.7-8.4z"/>
+    </svg>
+  </div>
+  <div>© 2025 Amazon.com, Inc. or its affiliates · All rights reserved</div>
+  <div style="margin-top:6px;display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+    <span style="cursor:pointer;color:#ccc" onclick="openInfo('Privacy Notice','Amazon values your privacy. Our privacy notice describes the personal information we collect, how we use it, and how we protect it.')">Privacy Notice</span>
+    <span style="cursor:pointer;color:#ccc" onclick="openInfo('Conditions of Use','These terms and conditions govern your use of the Amazon Services and constitute a legally binding agreement between you and Amazon.')">Conditions of Use</span>
+    <span style="cursor:pointer;color:#ccc" onclick="openInfo('Interest-Based Ads','Amazon uses interest-based advertising to show you relevant ads on Amazon and across the web based on your browsing and shopping history.')">Interest-Based Ads</span>
+  </div>
+</div>
+
+<!-- CART SIDEBAR -->
+<div class="cov" id="cov" onclick="closeCart()"></div>
+<div class="csb" id="csb">
+  <div class="chd"><h2><i class="fa-solid fa-cart-shopping"></i> Your Cart</h2><button class="xcl" onclick="closeCart()">✕</button></div>
+  <div class="cbody" id="cbody"></div>
+  <div class="cft">
+    <div class="csub">Subtotal: <span id="ctot">Rs. 0</span></div>
+    <button class="co" onclick="checkout()">Proceed to Checkout</button>
+    <div style="text-align:center;font-size:12px;color:var(--mu)"><i class="fa-solid fa-lock"></i> Secure checkout</div>
+  </div>
+</div>
+
+<!-- AUTH MODAL -->
+<div class="mo" id="authMo">
+  <div class="mb">
+    <button class="mcl" onclick="cmo('authMo')">✕</button>
+    <div class="mbl">
+      <svg viewBox="0 0 603 182" xmlns="http://www.w3.org/2000/svg" fill="var(--dk)" width="120" height="38" style="margin:0 auto 4px">
+        <path d="M372.5 140c-32.8 24.2-80.3 37.1-121.2 37.1-57.4 0-109-21.2-148.1-56.4-3.1-2.8-.3-6.6 3.4-4.4 42.2 24.5 94.3 39.3 148.2 39.3 36.3 0 76.2-7.5 112.9-23.1 5.5-2.3 10.2 3.6 4.8 7.5z" fill="#FF9900"/>
+        <path d="M386 124.6c-4.2-5.4-27.9-2.5-38.5-1.3-3.2.4-3.7-2.4-.8-4.4 18.9-13.2 49.7-9.4 53.3-5 3.6 4.5-1 35.3-18.6 50-2.7 2.3-5.3 1.1-4.1-1.9 4-9.9 12.9-32 8.7-37.4z" fill="#FF9900"/>
+        <path d="M346.7 19.9V7.5c0-1.8 1.4-3 3-3h53.3c1.7 0 3.1 1.3 3.1 3v10.6c0 1.7-1.4 3.8-4 7.2l-27.6 39.4c10.3-.3 21.1 1.3 30.4 6.4 2.1 1.2 2.6 2.9 2.8 4.6v13.2c0 1.7-1.9 3.7-3.8 2.7-16-8.4-37.2-9.3-54.8.1-1.8 1-3.8-.9-3.8-2.6V76.2c0-1.9 0-5.1 1.9-7.9l32-45.9h-27.8c-1.7 0-3.1-1.3-3.1-2.9z"/>
+        <path d="M123.6 93.6h-16.2c-1.5-.1-2.8-1.3-2.9-2.8V7.7c0-1.7 1.4-3 3.2-3h15.1c1.6.1 2.8 1.3 2.9 2.9v10.9h.3c3.9-10.6 11.3-15.5 21.3-15.5 10.1 0 16.5 4.9 21 15.5 3.9-10.6 12.9-15.5 22.4-15.5 6.8 0 14.2 2.8 18.8 9.1 5.1 7 4.1 17.1 4.1 26v52.7c0 1.7-1.4 3-3.2 3h-16.2c-1.6-.1-2.9-1.4-2.9-3V44.2c0-3.5.3-12.2-.5-15.5-1.2-5.6-4.9-7.2-9.6-7.2-4 0-8.1 2.7-9.8 6.9-1.7 4.3-1.5 11.4-1.5 15.8v46.6c0 1.7-1.4 3-3.2 3h-16.2c-1.6-.1-2.9-1.4-2.9-3l-.1-46.6c0-9.8 1.6-24.3-10.1-24.3-11.8 0-11.4 14.1-11.4 24.3v46.6c0 1.7-1.4 3-3.2 3z"/>
+        <path d="M449.4 2.9c24.4 0 37.6 21 37.6 47.6 0 27.7-15.7 48.2-37.6 48.2-23.9 0-36.9-21-36.9-47 0-26.2 13.2-48.8 36.9-48.8zm.1 18c-12.1 0-12.8 16.5-12.8 26.8s-.2 32.3 12.7 32.3c12.7 0 13.3-17.7 13.3-28.5 0-7.1-.3-15.5-2.5-22.2-1.9-5.9-5.7-8.4-10.7-8.4z"/>
+        <path d="M519.2 93.6h-16.1c-1.6-.1-2.9-1.4-2.9-3V7.5c.1-1.6 1.5-2.8 3.2-2.8h15c1.5.1 2.7 1.1 2.9 2.5v12.8h.3c4.5-11.5 10.8-17 21.9-17 7.2 0 14.2 2.6 18.7 9.7 4.2 6.6 4.2 17.8 4.2 25.7v52.7c-.2 1.5-1.5 2.7-3.2 2.7h-16.2c-1.5-.1-2.8-1.3-2.9-2.7V43.6c0-9.7 1.1-23.8-10.2-23.8-4 0-7.7 2.7-9.5 6.8-2.3 5.1-2.6 10.2-2.6 17v47c0 1.7-1.5 3-3.2 3z"/>
+        <path d="M300.5 53.5v-4.6c-16.5 0-34 3.5-34 22.9 0 9.8 5.1 16.5 13.8 16.5 6.4 0 12.1-3.9 15.7-10.4 4.4-7.9 4.5-15.4 4.5-24.4zm22.2 53.7c-1.5 1.3-3.6 1.4-5.3.5-7.4-6.2-8.8-9-12.9-14.8-12.3 12.5-21.1 16.3-37 16.3-18.9 0-33.7-11.7-33.7-35 0-18.2 9.9-30.6 23.9-36.7 12.2-5.4 29.2-6.3 42.2-7.8V27c0-5.1.4-11.2-2.6-15.6-2.6-4-7.7-5.7-12.2-5.7-8.3 0-15.7 4.3-17.5 13.1-.4 1.9-1.8 3.8-3.8 3.9l-15.7-1.7c-1.7-.4-3.5-1.7-3-4.2C270.9 5.3 291.5 0 310.1 0c9.5 0 21.9 2.5 29.4 9.7 9.5 8.8 8.6 20.6 8.6 33.4v30.2c0 9.1 3.8 13.1 7.3 18 1.2 1.8 1.5 3.9-.1 5.2-4 3.4-11.1 9.6-15 13.1l-.1-.2z"/>
+        <path d="M55.8 53.5v-4.6c-16.5 0-34 3.5-34 22.9 0 9.8 5.1 16.5 13.8 16.5 6.4 0 12.1-3.9 15.7-10.4 4.4-7.9 4.5-15.4 4.5-24.4zm22.2 53.7c-1.5 1.3-3.6 1.4-5.3.5-7.4-6.2-8.8-9-12.9-14.8C47.5 105.4 38.7 109.2 22.8 109.2 3.9 109.2-10.9 97.5-10.9 74.2c0-18.2 9.9-30.6 23.9-36.7 12.2-5.4 29.2-6.3 42.2-7.8V27c0-5.1.4-11.2-2.6-15.6-2.6-4-7.7-5.7-12.2-5.7-8.3 0-15.7 4.3-17.5 13.1-.4 1.9-1.8 3.8-3.8 3.9L3.4 21c-1.7-.4-3.5-1.7-3-4.2C5.2 5.3 25.8 0 44.4 0c9.5 0 21.9 2.5 29.4 9.7 9.5 8.8 8.6 20.6 8.6 33.4v30.2c0 9.1 3.8 13.1 7.3 18 1.2 1.8 1.5 3.9-.1 5.2-4 3.4-11.1 9.6-15 13.1l-.1-.2z"/>
+      </svg>
+    </div>
+    <h2 id="atitle">Sign In</h2>
+    <div id="lf">
+      <div class="fg">
+        <label>Email or mobile phone number</label>
+        <input type="email" id="le" placeholder="Enter your email">
+        <div class="err-msg" id="le-err">Please enter a valid email address (e.g. name@example.com)</div>
+      </div>
+      <div class="fg">
+        <label>Password</label>
+        <input type="password" id="lp" placeholder="Password">
+        <div class="err-msg" id="lp-err">Please enter your password</div>
+      </div>
+      <button class="mbbtn" onclick="login()">Sign In</button>
+      <p style="font-size:11px;color:var(--mu);margin-bottom:8px">By signing in you agree to Amazon's <span style="color:var(--lk);cursor:pointer" onclick="openInfo('Conditions of Use','These terms and conditions govern your use of the Amazon Services.')">Conditions of Use</span> and <span style="color:var(--lk);cursor:pointer" onclick="openInfo('Privacy Notice','Amazon values your privacy.')">Privacy Notice</span>.</p>
+      <div class="mdiv"><span>New to Amazon?</span></div>
+      <button class="mbbtn" style="background:#F0F2F2;border-color:#D5D9D9;color:#0F1111;font-weight:400" onclick="showReg()">Create your Amazon account</button>
+    </div>
+    <div id="rf" style="display:none">
+      <div class="fg">
+        <label>Your name</label>
+        <input type="text" id="rn" placeholder="First and last name">
+        <div class="err-msg" id="rn-err">Please enter your full name</div>
+      </div>
+      <div class="fg">
+        <label>Mobile number or email</label>
+        <input type="email" id="re" placeholder="Enter your email">
+        <div class="err-msg" id="re-err">Please enter a valid email address (e.g. name@example.com)</div>
+      </div>
+      <div class="fg">
+        <label>Password</label>
+        <input type="password" id="rp" placeholder="At least 6 characters" oninput="checkPwStrength(this.value)">
+        <div id="pw-bar" class="pw-strength" style="display:none"></div>
+        <div id="pw-label" class="pw-label" style="color:var(--mu)"></div>
+        <div class="err-msg" id="rp-err">Password must be at least 6 characters</div>
+      </div>
+      <div class="fg">
+        <label>Re-enter password</label>
+        <input type="password" id="rp2" placeholder="Re-enter password">
+        <div class="err-msg" id="rp2-err">Passwords do not match</div>
+      </div>
+      <button class="mbbtn" onclick="register()">Create your Amazon account</button>
+      <div class="mdiv"><span>Already have an account?</span></div>
+      <button class="mbbtn" style="background:#F0F2F2;border-color:#D5D9D9;color:#0F1111;font-weight:400" onclick="showLogin()">Sign In</button>
+    </div>
+  </div>
+</div>
+
+<!-- ORDERS MODAL -->
+<div class="mo" id="ordMo">
+  <div class="mb" style="width:520px;max-width:94vw">
+    <button class="mcl" onclick="cmo('ordMo')">✕</button>
+    <h2>Your Orders</h2>
+    <div id="ob" style="max-height:440px;overflow-y:auto"></div>
+  </div>
+</div>
+
+<!-- INFO MODAL -->
+<div class="mo" id="infoMo">
+  <div class="mb" style="width:480px;max-width:94vw">
+    <button class="mcl" onclick="cmo('infoMo')">✕</button>
+    <h2 id="infoTitle" style="font-size:17px;text-align:left;margin-bottom:12px"></h2>
+    <p id="infoBody" style="font-size:14px;line-height:1.7;color:var(--mu)"></p>
+    <button class="mbbtn" style="margin-top:16px" onclick="cmo('infoMo')">Close</button>
+  </div>
+</div>
+
+<!-- PRODUCT DETAIL -->
+<div class="dov" id="dov">
+  <div class="dbk" onclick="closeDet()"><i class="fa-solid fa-arrow-left"></i> Back to results</div>
+  <div class="dw"><div class="dgrid" id="dgrid"></div></div>
+</div>
+
+<!-- TOAST -->
+<div class="tw" id="tw"></div>
+
+<script>
+// ═══════════════════════════════
+// PRODUCTS — 100 items across 5 categories (20 each)
+// ═══════════════════════════════
+const P=[
+/* ---- ELECTRONICS (20) ---- */
+ {id:1,name:"Samsung Galaxy S24 Ultra 5G – 256GB",price:329999,old:389999,rating:4.8,reviews:2847,cat:"electronics",badge:"Best Seller",stock:15,brand:"Samsung",img:"https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=500&q=80",imgs:["https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=500&q=80","https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=500&q=80"],feats:["200MP Main Camera","S Pen included","5000mAh Battery","12GB RAM","256GB Storage","IP68 water resistant"],desc:"The most powerful Samsung Galaxy smartphone featuring a built-in S Pen, 200MP camera system, and Snapdragon 8 Gen 3."},
+ {id:2,name:"Apple iPhone 15 Pro Max – 256GB Natural Titanium",price:429999,old:469999,rating:4.9,reviews:5623,cat:"electronics",badge:"Prime",stock:8,brand:"Apple",img:"https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500&q=80",imgs:["https://images.unsplash.com/photo-1695048133142-1a20484d2569?w=500&q=80","https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=500&q=80"],feats:["A17 Pro chip","48MP Main Camera","Titanium design","USB-C","ProMotion 120Hz","Action Button"],desc:"iPhone 15 Pro Max — Apple's most advanced iPhone with a titanium frame and A17 Pro chip."},
+ {id:3,name:"Dell XPS 15 Laptop – Core i9, 32GB RAM, 1TB SSD",price:379999,old:449999,rating:4.7,reviews:1203,cat:"electronics",badge:"Deal",stock:5,brand:"Dell",img:"https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=500&q=80",imgs:["https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=500&q=80","https://images.unsplash.com/photo-1496181133206-80ce9b88a853?w=500&q=80"],feats:["Intel Core i9","32GB DDR5 RAM","1TB NVMe SSD","4K OLED Display","NVIDIA RTX 4070","Thunderbolt 4"],desc:"Ultra-thin premium laptop designed for creators and professionals."},
+ {id:4,name:"Sony WH-1000XM5 Noise-Cancelling Headphones",price:89999,old:109999,rating:4.8,reviews:8934,cat:"electronics",badge:"Best Seller",stock:22,brand:"Sony",img:"https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80",imgs:["https://images.unsplash.com/photo-1505740420928-5e560c06d30e?w=500&q=80","https://images.unsplash.com/photo-1583394838336-acd977736f90?w=500&q=80"],feats:["30-hour battery","Industry-leading ANC","LDAC Hi-Res Audio","8 microphones","Foldable design","3min quick charge"],desc:"World-class noise cancelling headphones with exceptional sound quality."},
+ {id:13,name:"JBL Charge 5 Portable Bluetooth Speaker",price:32999,old:41999,rating:4.7,reviews:9234,cat:"electronics",badge:"Deal",stock:14,brand:"JBL",img:"https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500&q=80",imgs:["https://images.unsplash.com/photo-1608043152269-423dbba4e7e1?w=500&q=80"],feats:["20-hour playtime","IP67 waterproof","7500mAh powerbank","PartyBoost","USB-C charging","Deep bass"],desc:"Powerful sound with deep bass, portable powerbank, fully waterproof."},
+ {id:101,name:"Apple iPad Pro 12.9\" M2 – 256GB WiFi",price:269999,old:299999,rating:4.9,reviews:3241,cat:"electronics",badge:"Best Seller",stock:10,brand:"Apple",img:"https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=500&q=80",imgs:["https://images.unsplash.com/photo-1544244015-0df4b3ffc6b0?w=500&q=80"],feats:["M2 chip","12.9-inch Liquid Retina XDR","ProMotion 120Hz","5G capable","12MP Ultra Wide camera","Thunderbolt / USB 4"],desc:"iPad Pro with the M2 chip — a giant leap forward in performance."},
+ {id:102,name:"Samsung 65\" QLED 4K Smart TV",price:189999,old:249999,rating:4.7,reviews:1847,cat:"electronics",badge:"Deal",stock:7,brand:"Samsung",img:"https://images.unsplash.com/photo-1593359677879-a4bb92f4834d?w=500&q=80",imgs:["https://images.unsplash.com/photo-1593359677879-a4bb92f4834d?w=500&q=80"],feats:["65-inch 4K QLED","120Hz refresh rate","Quantum HDR 12x","Object Tracking Sound","Smart TV – Tizen OS","4 HDMI ports"],desc:"Immersive 65-inch QLED TV with Quantum Dot technology for vivid colours."},
+ {id:103,name:"Canon EOS R50 Mirrorless Camera – 24MP",price:149999,old:179999,rating:4.8,reviews:924,cat:"electronics",badge:"New",stock:12,brand:"Canon",img:"https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500&q=80",imgs:["https://images.unsplash.com/photo-1516035069371-29a1b244cc32?w=500&q=80"],feats:["24.2MP APS-C sensor","4K video","Dual Pixel CMOS AF II","Vari-angle touchscreen","Built-in Wi-Fi & Bluetooth","RF-S 18-45mm kit lens"],desc:"Compact and lightweight mirrorless camera perfect for content creators."},
+ {id:104,name:"DJI Mini 4 Pro Drone – 4K/60fps",price:179999,old:219999,rating:4.8,reviews:1230,cat:"electronics",badge:"Best Seller",stock:9,brand:"DJI",img:"https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=500&q=80",imgs:["https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=500&q=80"],feats:["4K/60fps video","34-min flight time","Obstacle sensing","20km transmission","Auto Return Home","249g ultralight"],desc:"Sub-250g drone with 4K HDR video and omnidirectional obstacle sensing."},
+ {id:105,name:"Logitech MX Master 3S Wireless Mouse",price:16999,old:21999,rating:4.9,reviews:7823,cat:"electronics",badge:"Best Seller",stock:35,brand:"Logitech",img:"https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500&q=80",imgs:["https://images.unsplash.com/photo-1527864550417-7fd91fc51a46?w=500&q=80"],feats:["8000 DPI sensor","MagSpeed scrolling","70-day battery","USB-C charging","Multi-device up to 3","Silent clicks"],desc:"The most advanced Master series mouse with ultra-fast MagSpeed scrolling."},
+ {id:106,name:"Apple Watch Series 9 – 45mm GPS",price:79999,old:94999,rating:4.8,reviews:4521,cat:"electronics",badge:"New",stock:18,brand:"Apple",img:"https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=500&q=80",imgs:["https://images.unsplash.com/photo-1434494878577-86c23bcb06b9?w=500&q=80"],feats:["S9 chip","Double Tap gesture","Always-On Retina display","Blood oxygen sensor","ECG app","18-hr battery"],desc:"Apple Watch Series 9 with the new Double Tap gesture and S9 chip."},
+ {id:107,name:"Samsung Galaxy Tab S9 Ultra – 14.6\"",price:259999,old:299999,rating:4.7,reviews:1102,cat:"electronics",badge:"Deal",stock:6,brand:"Samsung",img:"https://images.unsplash.com/photo-1587033411391-5d9e51cce126?w=500&q=80",imgs:["https://images.unsplash.com/photo-1587033411391-5d9e51cce126?w=500&q=80"],feats:["14.6-inch Dynamic AMOLED 2X","Snapdragon 8 Gen 2","12GB RAM","S Pen included","120Hz refresh","IP68 rated"],desc:"The ultimate Android tablet experience with a massive 14.6-inch display."},
+ {id:108,name:"PlayStation 5 Console – Disc Edition",price:149999,old:174999,rating:4.9,reviews:12843,cat:"electronics",badge:"Best Seller",stock:4,brand:"Sony",img:"https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=500&q=80",imgs:["https://images.unsplash.com/photo-1606813907291-d86efa9b94db?w=500&q=80"],feats:["Custom 825GB SSD","4K Blu-ray disc drive","3D Audio","DualSense haptic feedback","8K output support","Ray-tracing GPU"],desc:"The PlayStation 5 console enables a new generation of incredible games."},
+ {id:109,name:"Bose QuietComfort Ultra Earbuds",price:69999,old:84999,rating:4.7,reviews:3401,cat:"electronics",badge:"New",stock:20,brand:"Bose",img:"https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&q=80",imgs:["https://images.unsplash.com/photo-1590658268037-6bf12165a8df?w=500&q=80"],feats:["CustomTune technology","Immersive Audio","24-hr total battery","IPX4 sweat resistant","QuietComfort mode","Aware mode"],desc:"Bose QuietComfort Ultra Earbuds with world-class noise cancellation and Immersive Audio."},
+ {id:110,name:"MacBook Air 15\" M3 – 16GB/512GB",price:409999,old:459999,rating:4.9,reviews:2103,cat:"electronics",badge:"Best Seller",stock:11,brand:"Apple",img:"https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&q=80",imgs:["https://images.unsplash.com/photo-1517336714731-489689fd1ca8?w=500&q=80"],feats:["Apple M3 chip","15.3-inch Liquid Retina","18-hour battery","16GB unified memory","512GB SSD","MagSafe 3 charging"],desc:"MacBook Air 15 with the M3 chip — thin, light, and remarkably capable."},
+ {id:111,name:"GoPro HERO12 Black Action Camera",price:69999,old:84999,rating:4.7,reviews:5678,cat:"electronics",badge:"Deal",stock:16,brand:"GoPro",img:"https://images.unsplash.com/photo-1502920917128-1aa500764bed?w=500&q=80",imgs:["https://images.unsplash.com/photo-1502920917128-1aa500764bed?w=500&q=80"],feats:["5.3K60 video","27MP photos","HyperSmooth 6.0","Waterproof to 10m","Horizon Lock","Enduro battery"],desc:"GoPro HERO12 Black with the best image quality and stabilisation ever."},
+ {id:112,name:"Amazon Echo Dot (5th Gen) Smart Speaker",price:9999,old:12999,rating:4.6,reviews:18234,cat:"electronics",badge:"Best Seller",stock:50,brand:"Amazon",img:"https://images.unsplash.com/photo-1543512214-318c7553f230?w=500&q=80",imgs:["https://images.unsplash.com/photo-1543512214-318c7553f230?w=500&q=80"],feats:["Improved speaker","Eero Wi-Fi built-in","Tap to snooze","Smart home hub","Temperature sensor","Alexa built-in"],desc:"Echo Dot with a bigger vibrant sound and a built-in temperature sensor."},
+ {id:113,name:"Xiaomi 14 Ultra Smartphone – 512GB",price:249999,old:299999,rating:4.7,reviews:2341,cat:"electronics",badge:"New",stock:13,brand:"Xiaomi",img:"https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=500&q=80",imgs:["https://images.unsplash.com/photo-1574944985070-8f3ebc6b79d2?w=500&q=80"],feats:["Leica quad camera","1-inch Sony IMX989 sensor","Snapdragon 8 Gen 3","6.73-inch AMOLED","90W wired charging","5000mAh battery"],desc:"Xiaomi 14 Ultra with Leica optics and the most advanced mobile camera system."},
+ {id:114,name:"Microsoft Xbox Series X Console",price:134999,old:159999,rating:4.8,reviews:8923,cat:"electronics",badge:"Best Seller",stock:5,brand:"Microsoft",img:"https://images.unsplash.com/photo-1605901309584-818e25f9d7a8?w=500&q=80",imgs:["https://images.unsplash.com/photo-1605901309584-818e25f9d7a8?w=500&q=80"],feats:["12 teraflops GPU","1TB Custom NVMe SSD","4K gaming at 60fps","Up to 120fps","Quick Resume","Backwards compatible"],desc:"The fastest, most powerful Xbox ever. Experience next-gen gaming."},
+ {id:115,name:"Razer DeathAdder V3 Pro Gaming Mouse",price:24999,old:30999,rating:4.8,reviews:4512,cat:"electronics",badge:"Deal",stock:25,brand:"Razer",img:"https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=500&q=80",imgs:["https://images.unsplash.com/photo-1615663245857-ac93bb7c39e7?w=500&q=80"],feats:["Focus Pro 30K sensor","90-hour battery","HyperSpeed wireless","63g ultra-light","11 programmable buttons","Optical switches"],desc:"The next evolution of the most popular gaming mouse — lighter and more precise."},
+
+/* ---- CLOTHING (20) ---- */
+ {id:6,name:"Men's Premium Polo T-Shirts – Pack of 3",price:3999,old:6999,rating:4.4,reviews:892,cat:"clothing",badge:"Deal",stock:50,brand:"Outfitters",img:"https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=500&q=80",imgs:["https://images.unsplash.com/photo-1586790170083-2f9ceadc732d?w=500&q=80"],feats:["100% Egyptian Cotton","Pack of 3","Machine washable","Sizes S–XXL","Ribbed collar","Embroidered logo"],desc:"Stay stylish in these premium cotton polo shirts."},
+ {id:11,name:"Women's Floral Maxi Dress – Summer Collection",price:4999,old:8499,rating:4.3,reviews:567,cat:"clothing",badge:"New",stock:35,brand:"Khaadi",img:"https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=500&q=80",imgs:["https://images.unsplash.com/photo-1572804013309-59a88b7e92f1?w=500&q=80"],feats:["Chiffon fabric","Floral print","Adjustable strap","XS–XL","Machine washable","Multiple colours"],desc:"Lightweight floral maxi dress perfect for summer occasions."},
+ {id:16,name:"Levi's 511 Slim Fit Jeans – Men's",price:7999,old:10999,rating:4.5,reviews:3421,cat:"clothing",badge:null,stock:60,brand:"Levi's",img:"https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&q=80",imgs:["https://images.unsplash.com/photo-1542272604-787c3835535d?w=500&q=80"],feats:["Slim fit","98% Cotton 2% Elastane","Flex stretch","Sizes 28–42","5-pocket styling","Machine washable"],desc:"The Levi's 511 Slim Fit Jeans — a modern classic for any occasion."},
+ {id:201,name:"Women's Khaddar Shalwar Kameez Set",price:5499,old:8999,rating:4.5,reviews:1234,cat:"clothing",badge:"Best Seller",stock:40,brand:"Khaadi",img:"https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80",imgs:["https://images.unsplash.com/photo-1610030469983-98e550d6193c?w=500&q=80"],feats:["100% Khaddar","Dupatta included","Hand embroidered","Sizes XS–XL","Dry clean recommended","Festive collection"],desc:"Elegant khaddar shalwar kameez with intricate hand embroidery."},
+ {id:202,name:"Men's Puffer Jacket – Quilted Warm",price:6999,old:9999,rating:4.4,reviews:876,cat:"clothing",badge:"Deal",stock:28,brand:"Bonanza",img:"https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=500&q=80",imgs:["https://images.unsplash.com/photo-1544022613-e87ca75a784a?w=500&q=80"],feats:["Quilted puffer fill","Water repellent","Zip pockets","Sizes S–3XL","Machine washable","6 colour options"],desc:"Stay warm this winter with this premium quilted puffer jacket."},
+ {id:203,name:"Girls' Casual Summer Top – Set of 2",price:2499,old:3999,rating:4.3,reviews:445,cat:"clothing",badge:null,stock:55,brand:"Cotton & Cotton",img:"https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?w=500&q=80",imgs:["https://images.unsplash.com/photo-1503944583220-79d8926ad5e2?w=500&q=80"],feats:["100% cotton","Set of 2 tops","Ages 4–14","Easy wash","Bright colours","Comfortable fit"],desc:"Comfortable and stylish summer tops for girls."},
+ {id:204,name:"Men's Formal Dress Shirt – Oxford",price:3499,old:5499,rating:4.5,reviews:2103,cat:"clothing",badge:"Best Seller",stock:45,brand:"Cambridge",img:"https://images.unsplash.com/photo-1607345366928-199ea26cfe3e?w=500&q=80",imgs:["https://images.unsplash.com/photo-1607345366928-199ea26cfe3e?w=500&q=80"],feats:["Oxford weave cotton","Slim fit","Button-down collar","Sizes S–3XL","Multiple colours","Easy iron"],desc:"Crisp Oxford dress shirt perfect for office and formal occasions."},
+ {id:205,name:"Women's Embroidered Lawn Suit 3-Piece",price:7499,old:11999,rating:4.6,reviews:1567,cat:"clothing",badge:"New",stock:32,brand:"Nishat Linen",img:"https://images.unsplash.com/photo-1585914641050-fa9883c4e21c?w=500&q=80",imgs:["https://images.unsplash.com/photo-1585914641050-fa9883c4e21c?w=500&q=80"],feats:["Lawn fabric","3-piece set","Machine embroidery","Digital printed dupatta","Sizes XS–XL","Summer collection"],desc:"Elegant 3-piece lawn suit with beautiful machine embroidery."},
+ {id:206,name:"Men's Chinos Slim Fit Trousers",price:4499,old:6999,rating:4.4,reviews:1890,cat:"clothing",badge:null,stock:48,brand:"Levi's",img:"https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=500&q=80",imgs:["https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=500&q=80"],feats:["98% Cotton","Slim fit","Stretch waistband","Sizes 28–40","8 colours","Machine washable"],desc:"Versatile slim fit chinos that work for office or casual outings."},
+ {id:207,name:"Boys' School Uniform Set – 3 Piece",price:2999,old:4499,rating:4.3,reviews:678,cat:"clothing",badge:"Best Seller",stock:60,brand:"Bonanza",img:"https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500&q=80",imgs:["https://images.unsplash.com/photo-1519238263530-99bdd11df2ea?w=500&q=80"],feats:["Shirt + Trouser + Belt","Sizes 4–16 years","Durable fabric","Machine washable","Neat pressed finish","School approved"],desc:"Durable and comfortable school uniform set for boys."},
+ {id:208,name:"Women's Cashmere Blend Cardigan",price:8999,old:13999,rating:4.6,reviews:934,cat:"clothing",badge:"Deal",stock:22,brand:"Ideas",img:"https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500&q=80",imgs:["https://images.unsplash.com/photo-1434389677669-e08b4cac3105?w=500&q=80"],feats:["60% Cashmere 40% Wool","Button front","Ribbed cuffs","Sizes XS–XL","Hand wash","Warm for winter"],desc:"Luxuriously soft cashmere blend cardigan for cosy winter days."},
+ {id:209,name:"Men's Kurta Pajama – Eid Collection",price:4999,old:7499,rating:4.5,reviews:1234,cat:"clothing",badge:"New",stock:30,brand:"Gul Ahmed",img:"https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=500&q=80",imgs:["https://images.unsplash.com/photo-1607082348824-0a96f2a4b9da?w=500&q=80"],feats:["Khaddar fabric","Kurta + Pajama set","Embroidered neckline","Sizes S–3XL","Eid special collection","Dry clean"],desc:"Traditional kurta pajama set from the exclusive Eid festive collection."},
+ {id:210,name:"Women's Yoga Pants – High Waist",price:3499,old:5499,rating:4.6,reviews:4523,cat:"clothing",badge:"Best Seller",stock:42,brand:"Adidas",img:"https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=500&q=80",imgs:["https://images.unsplash.com/photo-1506629082955-511b1aa562c8?w=500&q=80"],feats:["88% Polyester 12% Elastane","High-rise waist","4-way stretch","Moisture wicking","Side pockets","Sizes XS–2XL"],desc:"High-performance yoga pants with compression support and deep pockets."},
+ {id:211,name:"Leather Wallet – Men's Bifold RFID Blocking",price:2999,old:4499,rating:4.5,reviews:3421,cat:"clothing",badge:null,stock:65,brand:"Wrangler",img:"https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80",imgs:["https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=500&q=80"],feats:["Genuine leather","RFID blocking","12 card slots","Bill compartment","Slim profile","Gift box included"],desc:"Slim genuine leather bifold wallet with RFID blocking technology."},
+ {id:212,name:"Women's Running Sneakers – Lightweight",price:8999,old:13499,rating:4.6,reviews:2890,cat:"clothing",badge:"Deal",stock:33,brand:"Nike",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80",imgs:["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80"],feats:["React foam sole","Flyknit upper","Sizes 4–10","4 colourways","Machine washable","Heel drop: 10mm"],desc:"Lightweight and responsive running sneakers for women."},
+ {id:213,name:"Men's Wool Blazer – Classic Fit",price:12999,old:19999,rating:4.5,reviews:1102,cat:"clothing",badge:null,stock:18,brand:"Cambridge",img:"https://images.unsplash.com/photo-1594938298603-c8148c4b4d05?w=500&q=80",imgs:["https://images.unsplash.com/photo-1594938298603-c8148c4b4d05?w=500&q=80"],feats:["70% Wool 30% Polyester","Classic fit","Two button closure","Chest pocket","Sizes 36–52","Dry clean only"],desc:"Sharp wool blazer for business and semi-formal occasions."},
+ {id:214,name:"Kids' Winter Parka Jacket – Waterproof",price:4999,old:7999,rating:4.4,reviews:765,cat:"clothing",badge:"New",stock:27,brand:"Outfitters Junior",img:"https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=500&q=80",imgs:["https://images.unsplash.com/photo-1489987707025-afc232f7ea0f?w=500&q=80"],feats:["Waterproof outer shell","Fleece lining","Ages 3–12","Detachable hood","Zippered pockets","Reflective accents"],desc:"Warm and waterproof kids parka to keep little ones cosy all winter."},
+ {id:215,name:"Women's Silk Hijab – Pack of 3",price:2499,old:3999,rating:4.7,reviews:3210,cat:"clothing",badge:"Best Seller",stock:75,brand:"AlHuda",img:"https://images.unsplash.com/photo-1511895426328-dc8714191011?w=500&q=80",imgs:["https://images.unsplash.com/photo-1511895426328-dc8714191011?w=500&q=80"],feats:["100% Premium Silk","Pack of 3 colours","Pre-stitched","Easy to wear","Lightweight","Multiple colour combos"],desc:"Premium silk hijabs in a pack of 3 beautiful complementary colours."},
+ {id:216,name:"Men's Linen Casual Shirt",price:2999,old:4499,rating:4.4,reviews:1543,cat:"clothing",badge:null,stock:55,brand:"Gul Ahmed",img:"https://images.unsplash.com/photo-1603252109303-2751441dd157?w=500&q=80",imgs:["https://images.unsplash.com/photo-1603252109303-2751441dd157?w=500&q=80"],feats:["100% Linen","Relaxed fit","Sizes S–3XL","Summer wear","Multiple prints","Machine washable"],desc:"Breathable linen casual shirt — perfect for summer."},
+ {id:217,name:"Women's Abaya – Embroidered Classic",price:6999,old:10999,rating:4.7,reviews:2104,cat:"clothing",badge:"Best Seller",stock:38,brand:"Modanisa",img:"https://images.unsplash.com/photo-1512100356356-de1b84283e18?w=500&q=80",imgs:["https://images.unsplash.com/photo-1512100356356-de1b84283e18?w=500&q=80"],feats:["Premium crepe fabric","Hand embroidery","Belt included","Sizes S–4XL","Dry clean","Classic black + colour options"],desc:"Elegant embroidered abaya with a modern cut and premium fabric."},
+
+/* ---- SPORTS (20) ---- */
+ {id:5,name:"Nike Air Max 270 Running Shoes – Men's",price:24999,old:31999,rating:4.6,reviews:4521,cat:"sports",badge:null,stock:30,brand:"Nike",img:"https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80",imgs:["https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=500&q=80"],feats:["Air Max 270 unit","Breathable mesh","Rubber outsole","Sizes 7–13","8 colours","Cushioned foam"],desc:"Nike's tallest Air unit yet delivers a smooth ride and all-day cushioning."},
+ {id:8,name:"Adidas Ultraboost 23 Running Shoes",price:29999,old:39999,rating:4.7,reviews:3201,cat:"sports",badge:"New",stock:18,brand:"Adidas",img:"https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=500&q=80",imgs:["https://images.unsplash.com/photo-1608231387042-66d1773070a5?w=500&q=80"],feats:["Boost midsole","Primeknit+ upper","Continental rubber","Energy Push","Sizes 6–14","12 colourways"],desc:"Legendary Ultraboost running shoes with responsive Boost cushioning."},
+ {id:12,name:"Premium Yoga Mat – 6mm Non-Slip Extra Thick",price:2999,old:4999,rating:4.5,reviews:2103,cat:"sports",badge:null,stock:45,brand:"Liforme",img:"https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=500&q=80",imgs:["https://images.unsplash.com/photo-1544367567-0f2fcb009e0b?w=500&q=80"],feats:["6mm thick","Non-slip surface","Eco-friendly TPE","183×61cm","Free carry strap","Easy wipe clean"],desc:"Professional-grade yoga mat providing superior cushioning and grip."},
+ {id:301,name:"Wilson Pro Staff Tennis Racket",price:22999,old:29999,rating:4.7,reviews:1203,cat:"sports",badge:"Best Seller",stock:15,brand:"Wilson",img:"https://images.unsplash.com/photo-1617083934554-da5e1a44f08b?w=500&q=80",imgs:["https://images.unsplash.com/photo-1617083934554-da5e1a44f08b?w=500&q=80"],feats:["97 sq inch head","315g weight","Braided graphite","16x19 string pattern","Grip size 4 3/8","Includes cover"],desc:"Professional tennis racket used by top ATP players worldwide."},
+ {id:302,name:"Spalding NBA Official Basketball – Size 7",price:8999,old:12999,rating:4.6,reviews:3421,cat:"sports",badge:"Best Seller",stock:30,brand:"Spalding",img:"https://images.unsplash.com/photo-1546519638492-0e769bd9e36e?w=500&q=80",imgs:["https://images.unsplash.com/photo-1546519638492-0e769bd9e36e?w=500&q=80"],feats:["Official NBA size","Composite leather","Deep channel design","Indoor/outdoor","Pre-inflated","Sizes 5/6/7 available"],desc:"Official NBA game ball specification basketball for serious players."},
+ {id:303,name:"Adjustable Dumbbell Set – 2 × 20kg",price:19999,old:29999,rating:4.8,reviews:2341,cat:"sports",badge:"Deal",stock:12,brand:"Bowflex",img:"https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=500&q=80",imgs:["https://images.unsplash.com/photo-1581009146145-b5ef050c2e1e?w=500&q=80"],feats:["Adjustable 2–20kg each","Replaces 15 dumbbells","Quick adjust dial","Anti-roll design","Includes storage tray","1-year warranty"],desc:"Adjustable dumbbells that replace an entire rack of weights."},
+ {id:304,name:"Garmin Forerunner 265 GPS Running Watch",price:89999,old:109999,rating:4.8,reviews:1892,cat:"sports",badge:"New",stock:8,brand:"Garmin",img:"https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80",imgs:["https://images.unsplash.com/photo-1523275335684-37898b6baf30?w=500&q=80"],feats:["AMOLED display","GPS + heart rate","13-day battery","Running dynamics","Race predictor","Music storage"],desc:"Advanced running watch with vibrant AMOLED display and detailed training analytics."},
+ {id:305,name:"Decathlon Kiprun KS900 Trail Shoes",price:14999,old:19999,rating:4.5,reviews:876,cat:"sports",badge:null,stock:22,brand:"Decathlon",img:"https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=500&q=80",imgs:["https://images.unsplash.com/photo-1606107557195-0e29a4b5b4aa?w=500&q=80"],feats:["Grippy rubber lugs","EVA foam midsole","Breathable mesh","Sizes 38–47","Drop: 8mm","Trail tested"],desc:"Durable and grippy trail running shoes for all terrain conditions."},
+ {id:306,name:"Resistance Bands Set – 5 Levels",price:2499,old:3999,rating:4.5,reviews:5432,cat:"sports",badge:"Best Seller",stock:80,brand:"TheraBand",img:"https://images.unsplash.com/photo-1598971861713-54ad16a7e72e?w=500&q=80",imgs:["https://images.unsplash.com/photo-1598971861713-54ad16a7e72e?w=500&q=80"],feats:["5 resistance levels","Natural latex","12–200 lbs resistance","Includes carry bag","Door anchor included","Exercise guide"],desc:"Complete resistance band set for strength training at home or gym."},
+ {id:307,name:"Puma RS-X Sneakers – Unisex",price:15999,old:21999,rating:4.5,reviews:2103,cat:"sports",badge:"Deal",stock:24,brand:"Puma",img:"https://images.unsplash.com/photo-1539185441755-769473a23570?w=500&q=80",imgs:["https://images.unsplash.com/photo-1539185441755-769473a23570?w=500&q=80"],feats:["RS foam cushioning","Textile & leather upper","Sizes 5–12","6 colourways","Retro running style","Rubber outsole"],desc:"Bold retro-inspired chunky sneakers with superior RS foam cushioning."},
+ {id:308,name:"Football – Adidas Al Rihla Official",price:12999,old:16999,rating:4.7,reviews:3201,cat:"sports",badge:"Best Seller",stock:18,brand:"Adidas",img:"https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=500&q=80",imgs:["https://images.unsplash.com/photo-1575361204480-aadea25e6e68?w=500&q=80"],feats:["FIFA-approved","20-panel design","Thermal bonded seams","Size 5","Polyurethane shell","Speed optimised"],desc:"Official match football with FIFA approved design and premium materials."},
+ {id:309,name:"Pull-Up & Dip Station – Heavy Duty",price:24999,old:35999,rating:4.6,reviews:1032,cat:"sports",badge:"Deal",stock:7,brand:"PowerTec",img:"https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500&q=80",imgs:["https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=500&q=80"],feats:["300kg max load","Multi-grip bar","Dip bars included","Floor stabilisers","Easy assembly","Steel frame"],desc:"Heavy-duty pull-up and dip station for complete upper body training."},
+ {id:310,name:"Speedo Fastskin Pure Intent Goggles",price:5999,old:8499,rating:4.6,reviews:1234,cat:"sports",badge:null,stock:35,brand:"Speedo",img:"https://images.unsplash.com/photo-1560090995-01632a28895b?w=500&q=80",imgs:["https://images.unsplash.com/photo-1560090995-01632a28895b?w=500&q=80"],feats:["Ultra-wide lens","UV400 protection","Anti-fog coating","Competition grade","Hydrodynamic frame","3 nose bridge sizes"],desc:"Professional competition goggles with hydrodynamic frame design."},
+ {id:311,name:"Camping Tent – 4 Person Waterproof",price:19999,old:29999,rating:4.6,reviews:876,cat:"sports",badge:"Deal",stock:14,brand:"Coleman",img:"https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=500&q=80",imgs:["https://images.unsplash.com/photo-1504280390367-361c6d9f38f4?w=500&q=80"],feats:["4-person capacity","Waterproof 3000mm","2 doors & windows","Easy 5-min setup","Carry bag included","4-season tent"],desc:"Easy setup 4-person waterproof camping tent for all-weather adventures."},
+ {id:312,name:"Treadmill – Motorised Foldable Home Gym",price:89999,old:119999,rating:4.5,reviews:567,cat:"sports",badge:"Best Seller",stock:5,brand:"NordicTrack",img:"https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=500&q=80",imgs:["https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=500&q=80"],feats:["3HP motor","Speed 1–18 km/h","20% incline","Foldable space saver","LCD display","20 workout programs"],desc:"Motorised foldable treadmill for effective cardio workouts at home."},
+ {id:313,name:"Whey Protein – Optimum Nutrition Gold Standard 5lb",price:24999,old:32999,rating:4.8,reviews:12341,cat:"sports",badge:"Best Seller",stock:28,brand:"Optimum Nutrition",img:"https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=500&q=80",imgs:["https://images.unsplash.com/photo-1593095948071-474c5cc2989d?w=500&q=80"],feats:["24g protein per serving","5.5g BCAAs","4g glutamine","74 servings","Multiple flavours","Low sugar"],desc:"The world's best-selling whey protein supplement for muscle building."},
+ {id:314,name:"Cycling Helmet – MIPS Safety Certified",price:12999,old:17999,rating:4.7,reviews:1023,cat:"sports",badge:"New",stock:20,brand:"Bell",img:"https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80",imgs:["https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=500&q=80"],feats:["MIPS technology","23 vents","Ergo-fit dial","Sizes S/M/L","CPSC/CE certified","Aerodynamic design"],desc:"MIPS-equipped cycling helmet providing superior rotational impact protection."},
+ {id:315,name:"Jump Rope – Speed Rope Bearing Steel",price:1999,old:3499,rating:4.6,reviews:6782,cat:"sports",badge:"Best Seller",stock:60,brand:"RPM Speed",img:"https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=500&q=80",imgs:["https://images.unsplash.com/photo-1571019614242-c5c5dee9f50b?w=500&q=80"],feats:["Ball-bearing handles","1.5mm cable","Adjustable length","Lightweight 65g","Competition grade","Includes carry bag"],desc:"Professional speed jump rope with smooth ball-bearing handles."},
+ {id:316,name:"Cricket Bat – Kookaburra English Willow",price:18999,old:25999,rating:4.7,reviews:2341,cat:"sports",badge:"Best Seller",stock:10,brand:"Kookaburra",img:"https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=500&q=80",imgs:["https://images.unsplash.com/photo-1531415074968-036ba1b575da?w=500&q=80"],feats:["Grade 1 English Willow","Short handle","Full size","Pre-oiled","2.9–3.0 lbs","MCC approved"],desc:"Professional grade English willow cricket bat for serious batsmen."},
+ {id:317,name:"Boxing Gloves – Everlast Pro 16oz",price:9999,old:13999,rating:4.6,reviews:1890,cat:"sports",badge:"Deal",stock:22,brand:"Everlast",img:"https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=500&q=80",imgs:["https://images.unsplash.com/photo-1549719386-74dfcbf7dbed?w=500&q=80"],feats:["16oz weight","C3 foam protection","Hook & loop closure","Synthetic leather","Wrist support","All levels"],desc:"Everlast Pro boxing gloves with superior padding and wrist support."},
+
+/* ---- KITCHEN (20) ---- */
+ {id:7,name:"Instant Pot Duo 7-in-1 Pressure Cooker – 6 Qt",price:18999,old:24999,rating:4.7,reviews:15203,cat:"kitchen",badge:"Best Seller",stock:12,brand:"Instant Pot",img:"https://images.unsplash.com/photo-1585515320310-259814833e62?w=500&q=80",imgs:["https://images.unsplash.com/photo-1585515320310-259814833e62?w=500&q=80"],feats:["7-in-1 multi-cooker","14 Smart Programs","6 Qt stainless steel","Delay start","Dishwasher-safe lid","UL certified"],desc:"The world's best-selling multi-cooker. Replaces 7 kitchen appliances."},
+ {id:10,name:"KitchenAid Artisan Stand Mixer – 5 Qt",price:89999,old:109999,rating:4.8,reviews:7823,cat:"kitchen",badge:"Deal",stock:7,brand:"KitchenAid",img:"https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500&q=80",imgs:["https://images.unsplash.com/photo-1578985545062-69928b1d9587?w=500&q=80"],feats:["5 Qt bowl","10 speeds","59+ attachments","275W motor","Tilt-head","5-year warranty"],desc:"The iconic KitchenAid Artisan Stand Mixer — a timeless kitchen icon."},
+ {id:15,name:"Ninja Air Fryer AF101 – 4 Qt Family Size",price:22999,old:28999,rating:4.6,reviews:11203,cat:"kitchen",badge:"Deal",stock:20,brand:"Ninja",img:"https://images.unsplash.com/photo-1612883339682-6c5c399adc7b?w=500&q=80",imgs:["https://images.unsplash.com/photo-1612883339682-6c5c399adc7b?w=500&q=80"],feats:["4 Qt capacity","4-in-1 functions","1550W","75% less fat","Temp range 105°–400°F","Dishwasher safe"],desc:"Get crispy golden results with 75% less fat than traditional frying."},
+ {id:401,name:"Nespresso Vertuo Next Coffee Machine",price:59999,old:74999,rating:4.7,reviews:4521,cat:"kitchen",badge:"Best Seller",stock:14,brand:"Nespresso",img:"https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&q=80",imgs:["https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?w=500&q=80"],feats:["Centrifusion technology","5 cup sizes","Used capsule container","Wi-Fi connected","Auto cleaning","Aeroccino frother included"],desc:"Make barista-quality coffee at home with Nespresso Vertuo technology."},
+ {id:402,name:"Cuisinart Food Processor 14-Cup",price:34999,old:44999,rating:4.6,reviews:3210,cat:"kitchen",badge:"Deal",stock:11,brand:"Cuisinart",img:"https://images.unsplash.com/photo-1556909190-b2aa8e2a3a7a?w=500&q=80",imgs:["https://images.unsplash.com/photo-1556909190-b2aa8e2a3a7a?w=500&q=80"],feats:["14-cup work bowl","720W motor","Reversible slicing disc","Dough blade included","Dishwasher safe","3 speeds + pulse"],desc:"Powerful 14-cup food processor that handles any cooking task."},
+ {id:403,name:"Le Creuset Cast Iron Dutch Oven – 5.5 Qt",price:69999,old:84999,rating:4.9,reviews:6782,cat:"kitchen",badge:"Best Seller",stock:8,brand:"Le Creuset",img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&q=80",imgs:["https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&q=80"],feats:["Enamelled cast iron","5.5 Qt capacity","Oven safe to 260°C","Works on all hobs","Dishwasher safe","Lifetime warranty"],desc:"Iconic Le Creuset dutch oven — the world's finest cast iron cookware."},
+ {id:404,name:"Vitamix A3500 Blender – Ascent Series",price:99999,old:124999,rating:4.8,reviews:2341,cat:"kitchen",badge:"Deal",stock:6,brand:"Vitamix",img:"https://images.unsplash.com/photo-1572201749571-5a0dea8c3ac4?w=500&q=80",imgs:["https://images.unsplash.com/photo-1572201749571-5a0dea8c3ac4?w=500&q=80"],feats:["2200W motor","5 programme settings","Variable speed dial","Self-cleaning","Wireless connectivity","10-year warranty"],desc:"The Vitamix A3500 is the ultimate kitchen appliance for any recipe."},
+ {id:405,name:"Tefal Ingenio Non-Stick Pan Set – 10 Piece",price:24999,old:34999,rating:4.5,reviews:3421,cat:"kitchen",badge:"Best Seller",stock:16,brand:"Tefal",img:"https://images.unsplash.com/photo-1584949091598-c31daaaa4aa9?w=500&q=80",imgs:["https://images.unsplash.com/photo-1584949091598-c31daaaa4aa9?w=500&q=80"],feats:["10-piece set","Titanium non-stick","Detachable handles","Oven & dishwasher safe","Works all hob types","Space saving stacking"],desc:"10-piece non-stick cookware set with innovative detachable handles."},
+ {id:406,name:"Breville Barista Express Espresso Machine",price:129999,old:154999,rating:4.8,reviews:5678,cat:"kitchen",badge:"Best Seller",stock:5,brand:"Breville",img:"https://images.unsplash.com/photo-1459755486867-b55449bb39ff?w=500&q=80",imgs:["https://images.unsplash.com/photo-1459755486867-b55449bb39ff?w=500&q=80"],feats:["Built-in burr grinder","15-bar pressure pump","Thermocoil heating","Steam wand","Digital temperature","Includes accessories"],desc:"Barista-quality espresso at home with the built-in precision burr grinder."},
+ {id:407,name:"Philips Air Fryer XXL – 7.3L",price:34999,old:44999,rating:4.7,reviews:8923,cat:"kitchen",badge:"Deal",stock:13,brand:"Philips",img:"https://images.unsplash.com/photo-1605926637512-c8b131444a4b?w=500&q=80",imgs:["https://images.unsplash.com/photo-1605926637512-c8b131444a4b?w=500&q=80"],feats:["7.3L family size","Fat Removal Technology","Digital display","Keep warm function","Rapid Air technology","Dishwasher safe"],desc:"Philips XXL Air Fryer with Fat Removal Technology for healthier cooking."},
+ {id:408,name:"Global Knife Set – 7 Piece Professional",price:44999,old:59999,rating:4.8,reviews:1890,cat:"kitchen",badge:"Best Seller",stock:9,brand:"Global",img:"https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=500&q=80",imgs:["https://images.unsplash.com/photo-1593642632559-0c6d3fc62b89?w=500&q=80"],feats:["7-piece set","CROMOVA 18 stainless steel","Hollow handle","Razor-sharp edge","Dishwasher safe","Japanese crafted"],desc:"World-class Japanese professional knife set used by top chefs globally."},
+ {id:409,name:"Panasonic Microwave Oven – 32L Inverter",price:39999,old:52999,rating:4.6,reviews:2341,cat:"kitchen",badge:"Deal",stock:12,brand:"Panasonic",img:"https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=500&q=80",imgs:["https://images.unsplash.com/photo-1585771724684-38269d6639fd?w=500&q=80"],feats:["32L capacity","Inverter technology","Grill function","Convection baking","Sensor cooking","Child lock"],desc:"Panasonic inverter microwave with uniform cooking and grill function."},
+ {id:410,name:"OXO Good Grips Mixing Bowl Set – 3 Piece",price:8999,old:12999,rating:4.7,reviews:4521,cat:"kitchen",badge:null,stock:30,brand:"OXO",img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&q=80",imgs:["https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&q=80"],feats:["3 sizes (1.5, 3, 5 Qt)","Non-slip base","Flat side for pouring","Soft-grip handle","Dishwasher safe","BPA-free"],desc:"Sturdy stainless steel mixing bowls with non-slip bases and pour spouts."},
+ {id:411,name:"Dyson V15 Detect Cordless Vacuum",price:149999,old:179999,rating:4.8,reviews:6782,cat:"kitchen",badge:"Best Seller",stock:8,brand:"Dyson",img:"https://images.unsplash.com/photo-1558317374-067fb5f30001?w=500&q=80",imgs:["https://images.unsplash.com/photo-1558317374-067fb5f30001?w=500&q=80"],feats:["Laser detect dust","HEPA filtration","60-min run time","Hair screw tool","LCD screen","Wall dock included"],desc:"Dyson V15 Detect with laser that reveals microscopic dust."},
+ {id:412,name:"Russell Hobbs Electric Kettle – 1.7L",price:7999,old:10999,rating:4.5,reviews:5432,cat:"kitchen",badge:null,stock:40,brand:"Russell Hobbs",img:"https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?w=500&q=80",imgs:["https://images.unsplash.com/photo-1594631252845-29fc4cc8cde9?w=500&q=80"],feats:["1.7L capacity","3000W fast boil","360° cordless base","Auto shutoff","Boil dry protection","Stainless steel filter"],desc:"Fast-boil electric kettle with sleek stainless steel design."},
+ {id:413,name:"Silicone Cooking Utensil Set – 12 Piece",price:4999,old:7999,rating:4.5,reviews:3210,cat:"kitchen",badge:"Deal",stock:50,brand:"OXO",img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&q=80",imgs:["https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&q=80"],feats:["12-piece set","BPA-free silicone","Heat resistant 230°C","Stainless steel handles","Dishwasher safe","Utensil holder included"],desc:"Complete silicone cooking utensil set safe for non-stick cookware."},
+ {id:414,name:"Bamix Hand Blender – Professional 200W",price:19999,old:26999,rating:4.7,reviews:2103,cat:"kitchen",badge:null,stock:18,brand:"Bamix",img:"https://images.unsplash.com/photo-1585515320310-259814833e62?w=500&q=80",imgs:["https://images.unsplash.com/photo-1585515320310-259814833e62?w=500&q=80"],feats:["200W motor","4 attachments","Stainless blades","2-speed settings","12,000–17,000 RPM","Swiss made"],desc:"The original Swiss-made hand blender trusted by professional chefs."},
+ {id:415,name:"Bamboo Cutting Board Set – 3 Piece",price:3999,old:5999,rating:4.6,reviews:8923,cat:"kitchen",badge:"Best Seller",stock:65,brand:"Totally Bamboo",img:"https://images.unsplash.com/photo-1556909190-b2aa8e2a3a7a?w=500&q=80",imgs:["https://images.unsplash.com/photo-1556909190-b2aa8e2a3a7a?w=500&q=80"],feats:["3 sizes included","Eco-friendly bamboo","Juice groove edge","Antimicrobial","Easy grip handle","Non-porous surface"],desc:"Eco-friendly bamboo cutting boards that are gentle on knife blades."},
+ {id:416,name:"De'Longhi Toaster Oven – 45L Multifunctional",price:44999,old:59999,rating:4.6,reviews:1890,cat:"kitchen",badge:"Deal",stock:10,brand:"De'Longhi",img:"https://images.unsplash.com/photo-1585515320310-259814833e62?w=500&q=80",imgs:["https://images.unsplash.com/photo-1585515320310-259814833e62?w=500&q=80"],feats:["45L capacity","8 cooking functions","Dual convection fans","Interior light","2-year warranty","Stainless finish"],desc:"Large-capacity toaster oven with dual convection fans for even cooking."},
+ {id:417,name:"Thermapen One Instant Read Thermometer",price:12999,old:16999,rating:4.9,reviews:14320,cat:"kitchen",badge:"Best Seller",stock:35,brand:"ThermoWorks",img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&q=80",imgs:["https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=500&q=80"],feats:["1-second read","±0.5°F accuracy","Waterproof IP67","Auto-rotate display","3000hr battery","Backlit screen"],desc:"The world's fastest and most accurate instant-read cooking thermometer."},
+
+/* ---- BOOKS (20) ---- */
+ {id:9,name:"Atomic Habits – James Clear (Hardcover)",price:1999,old:2799,rating:4.9,reviews:45201,cat:"books",badge:"Best Seller",stock:100,brand:"Penguin Books",img:"https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&q=80",imgs:["https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&q=80"],feats:["336 pages","Hardcover","#1 NYT Bestseller","10M+ copies sold","Practical frameworks","Evidence-based"],desc:"Tiny changes, remarkable results. The ultimate guide to building good habits."},
+ {id:14,name:"The Psychology of Money – Morgan Housel",price:1799,old:2499,rating:4.8,reviews:28903,cat:"books",badge:"Best Seller",stock:80,brand:"Harriman House",img:"https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=500&q=80",imgs:["https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=500&q=80"],feats:["256 pages","Paperback & hardcover","19 short stories","#1 finance book worldwide","Accessible language","Global bestseller"],desc:"Timeless lessons on wealth, greed, and happiness."},
+ {id:501,name:"The Alchemist – Paulo Coelho (Paperback)",price:1299,old:1799,rating:4.8,reviews:67821,cat:"books",badge:"Best Seller",stock:150,brand:"HarperOne",img:"https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80",imgs:["https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80"],feats:["208 pages","Paperback","65M+ copies sold","56 languages","25th anniversary edition","Inspiring story"],desc:"A magical story about following your dreams and listening to your heart."},
+ {id:502,name:"Sapiens: A Brief History of Humankind – Harari",price:1999,old:2999,rating:4.7,reviews:38921,cat:"books",badge:"Best Seller",stock:90,brand:"Harper",img:"https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&q=80",imgs:["https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&q=80"],feats:["464 pages","International bestseller","30+ languages","500K+ UK sales","Paperback available","Illustrated edition"],desc:"A groundbreaking narrative of humankind's creation and evolution."},
+ {id:503,name:"The 48 Laws of Power – Robert Greene",price:2499,old:3499,rating:4.6,reviews:22341,cat:"books",badge:"Best Seller",stock:75,brand:"Penguin Books",img:"https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80",imgs:["https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80"],feats:["480 pages","Illustrated with artwork","Historical examples","48 immutable laws","Paperback","10M+ copies"],desc:"The definitive guide to power and strategy in any situation."},
+ {id:504,name:"Think and Grow Rich – Napoleon Hill",price:999,old:1499,rating:4.7,reviews:41203,cat:"books",badge:"Best Seller",stock:120,brand:"Tarcher",img:"https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&q=80",imgs:["https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&q=80"],feats:["320 pages","Paperback","Classic 1937 edition","Updated 21st century","Success philosophy","100M+ copies sold"],desc:"The all-time bestselling personal success book with 13 principles."},
+ {id:505,name:"Rich Dad Poor Dad – Robert Kiyosaki",price:1299,old:1799,rating:4.6,reviews:53421,cat:"books",badge:"Best Seller",stock:130,brand:"Plata Publishing",img:"https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=500&q=80",imgs:["https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=500&q=80"],feats:["240 pages","25th anniversary edition","32M copies worldwide","Financial literacy focus","Paperback","Updated with new commentary"],desc:"The #1 personal finance book of all time about money and investing."},
+ {id:506,name:"Deep Work – Cal Newport (Hardcover)",price:1999,old:2799,rating:4.7,reviews:18921,cat:"books",badge:null,stock:65,brand:"Grand Central",img:"https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80",imgs:["https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80"],feats:["296 pages","Hardcover","Productivity focused","Scientific research","4 rules framework","Business bestseller"],desc:"Rules for focused success in a distracted world."},
+ {id:507,name:"Can't Hurt Me – David Goggins",price:2199,old:3199,rating:4.8,reviews:31203,cat:"books",badge:"Best Seller",stock:85,brand:"Lioncrest",img:"https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&q=80",imgs:["https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&q=80"],feats:["366 pages","Hardcover & paperback","Memoir + self-help","10 challenges","Inspiring true story","NYT Bestseller"],desc:"Master your mind and defy the odds — David Goggins' incredible story."},
+ {id:508,name:"Zero to One – Peter Thiel",price:1599,old:2299,rating:4.6,reviews:14532,cat:"books",badge:null,stock:70,brand:"Crown Business",img:"https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=500&q=80",imgs:["https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=500&q=80"],feats:["224 pages","Business & startups","Stanford lecture notes","Contrarian thinking","Paperback & hardcover","#1 WSJ Bestseller"],desc:"Notes on startups, or how to build the future."},
+ {id:509,name:"The Subtle Art of Not Giving a F*ck – Manson",price:1499,old:2199,rating:4.5,reviews:48201,cat:"books",badge:"Best Seller",stock:110,brand:"Harper",img:"https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80",imgs:["https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80"],feats:["224 pages","Counterintuitive approach","#1 NYT Bestseller","10M+ copies","Paperback","20 languages"],desc:"A counterintuitive approach to living a good life."},
+ {id:510,name:"Ikigai – The Japanese Secret to Long Life",price:1299,old:1899,rating:4.6,reviews:23421,cat:"books",badge:"Best Seller",stock:95,brand:"Hutchinson",img:"https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&q=80",imgs:["https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&q=80"],feats:["194 pages","Paperback","Philosophy of purpose","Japanese wisdom","Quick read","Beautiful design"],desc:"The Japanese secret to a long and happy life — finding your purpose."},
+ {id:511,name:"The 5 AM Club – Robin Sharma",price:1699,old:2499,rating:4.5,reviews:17823,cat:"books",badge:null,stock:80,brand:"HarperCollins",img:"https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=500&q=80",imgs:["https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=500&q=80"],feats:["336 pages","Morning routine focus","20/20/20 formula","Inspiring story","Paperback","Self-help classic"],desc:"Own your morning, elevate your life with the 5 AM morning routine."},
+ {id:512,name:"Start with Why – Simon Sinek",price:1499,old:2099,rating:4.6,reviews:19234,cat:"books",badge:null,stock:75,brand:"Portfolio",img:"https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80",imgs:["https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80"],feats:["256 pages","Leadership & business","TED talk companion","Paperback","Proven framework","Bestselling author"],desc:"How great leaders inspire everyone to take action."},
+ {id:513,name:"The Power of Now – Eckhart Tolle",price:1599,old:2299,rating:4.7,reviews:32104,cat:"books",badge:"Best Seller",stock:85,brand:"New World Library",img:"https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&q=80",imgs:["https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&q=80"],feats:["236 pages","Spiritual classic","30M+ copies","50 languages","Paperback","Oprah's favourite"],desc:"A guide to spiritual enlightenment and living in the present moment."},
+ {id:514,name:"How to Win Friends and Influence People – Carnegie",price:1199,old:1799,rating:4.7,reviews:57823,cat:"books",badge:"Best Seller",stock:120,brand:"Pocket Books",img:"https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=500&q=80",imgs:["https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=500&q=80"],feats:["288 pages","Timeless classic","30M+ copies","Multiple editions","Paperback","Updated edition"],desc:"The classic guide to communication and interpersonal relationships."},
+ {id:515,name:"Thinking, Fast and Slow – Daniel Kahneman",price:1899,old:2699,rating:4.7,reviews:28341,cat:"books",badge:null,stock:70,brand:"Farrar Straus",img:"https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80",imgs:["https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80"],feats:["512 pages","Nobel Prize winner","Paperback & hardcover","Behavioural economics","System 1 & 2","Scientific research"],desc:"A Nobel laureate's exploration of the two systems that drive the way we think."},
+ {id:516,name:"The Lean Startup – Eric Ries",price:1699,old:2499,rating:4.6,reviews:15432,cat:"books",badge:null,stock:65,brand:"Crown Business",img:"https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&q=80",imgs:["https://images.unsplash.com/photo-1544947950-fa07a98d237f?w=500&q=80"],feats:["336 pages","Startup methodology","Lean principles","Validated learning","Paperback","Business classic"],desc:"How today's entrepreneurs use continuous innovation to create successful businesses."},
+ {id:517,name:"Man's Search for Meaning – Viktor Frankl",price:1299,old:1899,rating:4.8,reviews:41203,cat:"books",badge:"Best Seller",stock:95,brand:"Beacon Press",img:"https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=500&q=80",imgs:["https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=500&q=80"],feats:["165 pages","Holocaust memoir","Logotherapy","One of the 10 most influential books","Paperback","12M+ copies"],desc:"A powerful account of Holocaust survival and the search for meaning in suffering."},
+ {id:518,name:"The 7 Habits of Highly Effective People – Covey",price:1999,old:2799,rating:4.7,reviews:37823,cat:"books",badge:"Best Seller",stock:90,brand:"Free Press",img:"https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80",imgs:["https://images.unsplash.com/photo-1512820790803-83ca734da794?w=500&q=80"],feats:["432 pages","30th anniversary edition","40M+ copies","Business bible","Paperback & hardcover","Timeless framework"],desc:"The 7 Habits that will fundamentally change how you see and interact with the world."},
+];
+
+const CATS=[
+ {name:"Electronics",cat:"electronics",img:"https://images.unsplash.com/photo-1526738549149-8e07eca6c147?w=400&q=80"},
+ {name:"Fashion",cat:"clothing",img:"https://images.unsplash.com/photo-1445205170230-053b83016050?w=400&q=80"},
+ {name:"Sports",cat:"sports",img:"https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=400&q=80"},
+ {name:"Kitchen",cat:"kitchen",img:"https://images.unsplash.com/photo-1556909114-f6e7ad7d3136?w=400&q=80"},
+ {name:"Books",cat:"books",img:"https://images.unsplash.com/photo-1512820790803-83ca734da794?w=400&q=80"},
+ {name:"Health & Beauty",cat:"all",img:"https://images.unsplash.com/photo-1571781926291-c477ebfd024b?w=400&q=80"},
+];
+
+// ── STATE ──
+let cart=JSON.parse(localStorage.getItem('a_c')||'[]');
+let wish=JSON.parse(localStorage.getItem('a_w')||'[]');
+let user=JSON.parse(localStorage.getItem('a_u')||'null');
+let ords=JSON.parse(localStorage.getItem('a_o')||'[]');
+let rec=JSON.parse(localStorage.getItem('a_r')||'[]');
+let curCat='all',curSlide=0,slT;
+let deliveryLoc=localStorage.getItem('a_loc')||'';
+
+document.addEventListener('DOMContentLoaded',()=>{
+  buildDots();buildCats();renderP(P);updCart();updNav();startSlide();startTimer();renderRec();
+  if(deliveryLoc)document.getElementById('delLoc').textContent=deliveryLoc;
+});
+
+// ── HERO ──
+function buildDots(){
+  const ss=document.querySelectorAll('.hs'),d=document.getElementById('hd');
+  ss.forEach((_,i)=>{const b=document.createElement('button');b.className='hdt'+(i===0?' active':'');b.onclick=()=>gSlide(i);d.appendChild(b);});
+}
+function sl(dir){
+  const ss=document.querySelectorAll('.hs'),dd=document.querySelectorAll('.hdt');
+  ss[curSlide].classList.remove('active');dd[curSlide].classList.remove('active');
+  curSlide=(curSlide+dir+ss.length)%ss.length;
+  ss[curSlide].classList.add('active');dd[curSlide].classList.add('active');
+  clearInterval(slT);slT=setInterval(()=>sl(1),5200);
+}
+function gSlide(i){sl(i-curSlide);}
+function startSlide(){slT=setInterval(()=>sl(1),5200);}
+
+// ── TIMER ──
+function startTimer(){
+  let h=8,m=44,s=58;
+  setInterval(()=>{s--;if(s<0){s=59;m--;}if(m<0){m=59;h--;}if(h<0)h=23;
+    document.getElementById('tH').textContent=String(h).padStart(2,'0');
+    document.getElementById('tM').textContent=String(m).padStart(2,'0');
+    document.getElementById('tS').textContent=String(s).padStart(2,'0');
+  },1000);
+}
+
+// ── CATEGORIES ──
+function buildCats(){
+  document.getElementById('cg').innerHTML=CATS.map(c=>`
+    <div class="cc2" onclick="fcat('${c.cat}')">
+      <img src="${c.img}" alt="${c.name}" loading="lazy">
+      <p>${c.name}</p>
+    </div>`).join('');
+}
+
+// ── STARS ──
+function strs(r){const f=Math.floor(r),h=r%1>=.5,e=5-f-(h?1:0);return'<span style="color:var(--or)">'+'★'.repeat(f)+(h?'½':'')+'</span><span style="color:#ccc">'+'★'.repeat(e)+'</span>';}
+
+// ── RENDER PRODUCTS ──
+function renderP(list){
+  const g=document.getElementById('pg');
+  if(!list.length){g.innerHTML=`<div class="nr"><i class="fa-solid fa-magnifying-glass"></i>No products found. Try a different search or filter.</div>`;return;}
+  g.innerHTML=list.map((p,i)=>{
+    const d=Math.round((1-p.price/p.old)*100),low=p.stock<=5,won=wish.includes(p.id);
+    return`<div class="pcard" style="animation-delay:${i*.04}s" onclick="openDet(${p.id})">
+      <div class="pimg">
+        <img src="${p.img}" alt="${p.name}" loading="lazy">
+        ${p.badge?`<span class="bdg${p.badge==='New'?' nb2':p.badge==='Prime'?' pb2':''}">${p.badge}</span>`:''}
+        <button class="wlb${won?' on':''}" onclick="tWish(event,${p.id})"><i class="${won?'fa-solid':'fa-regular'} fa-heart"></i></button>
+      </div>
+      <div class="pin">
+        <div class="pn">${p.name}</div>
+        <div style="margin-bottom:3px">${strs(p.rating)}<span style="color:var(--lk);font-size:12px;margin-left:3px">${p.reviews.toLocaleString()}</span></div>
+        <div class="ppr">
+          <span class="psm">Rs.</span><span class="pwh">${p.price.toLocaleString()}</span>
+          <div><span class="pod">Rs.${p.old.toLocaleString()}</span> <span class="psv">−${d}%</span></div>
+        </div>
+        <div class="pst${low?' low':''}">${low?`Only ${p.stock} left in stock`:'In Stock'}</div>
+        <button class="atc" onclick="addC(event,${p.id})">Add to Cart</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── FILTER / SORT ──
+function fcat(cat,btn){
+  curCat=cat;
+  document.querySelectorAll('.fbn').forEach(b=>b.classList.remove('act'));
+  if(btn&&btn.classList)btn.classList.add('act');
+  applyF();
+}
+function applyF(){
+  let list=curCat==='all'?[...P]:P.filter(x=>x.cat===curCat);
+  const s=document.getElementById('ss').value;
+  if(s==='pl')list.sort((a,b)=>a.price-b.price);
+  else if(s==='ph')list.sort((a,b)=>b.price-a.price);
+  else if(s==='rt')list.sort((a,b)=>b.rating-a.rating);
+  else if(s==='nw')list.sort((a,b)=>b.id-a.id);
+  renderP(list);
+}
+function goHome(){
+  curCat='all';document.getElementById('si').value='';
+  document.querySelectorAll('.fbn').forEach((b,i)=>{b.classList.remove('act');if(i===0)b.classList.add('act');});
+  document.getElementById('ss').value='';renderP(P);
+}
+
+// ── SEARCH ──
+function liveS(v){
+  const drop=document.getElementById('sdrop');
+  const inp=document.getElementById('si');
+  const rect=inp.closest('.ns').getBoundingClientRect();
+  drop.style.left=rect.left+'px';drop.style.width=rect.width+'px';
+  if(!v.trim()){drop.classList.remove('show');return;}
+  const res=P.filter(x=>x.name.toLowerCase().includes(v.toLowerCase())).slice(0,7);
+  if(!res.length){drop.classList.remove('show');return;}
+  drop.innerHTML=res.map(p=>`<div class="sdi" onclick="openDet(${p.id})">
+    <img src="${p.img}" alt="${p.name}">
+    <div><div class="sdi-n">${p.name.substring(0,55)}…</div><div class="sdi-p">Rs. ${p.price.toLocaleString()}</div></div>
+  </div>`).join('');
+  drop.classList.add('show');
+}
+function doS(){
+  const v=document.getElementById('si').value.trim();
+  document.getElementById('sdrop').classList.remove('show');
+  if(!v){renderP(P);return;}
+  renderP(P.filter(x=>x.name.toLowerCase().includes(v.toLowerCase())||x.cat.includes(v.toLowerCase())));
+}
+document.addEventListener('click',e=>{
+  if(!e.target.closest('.ns'))document.getElementById('sdrop').classList.remove('show');
+  if(!e.target.closest('#locModal')&&!e.target.closest('#delBtn'))closeLoc();
+});
+
+// ── CART ──
+function addC(e,id){
+  if(e)e.stopPropagation();
+  const p=P.find(x=>x.id===id),ex=cart.find(i=>i.id===id);
+  if(ex)ex.qty++;else cart.push({id,qty:1});
+  saveC();updCart();toast(`${p.name.substring(0,32)}… added to cart!`,'ok');
+}
+function remC(id){cart=cart.filter(i=>i.id!==id);saveC();updCart();rCartB();}
+function uQty(id,d){
+  const it=cart.find(i=>i.id===id);if(!it)return;
+  it.qty+=d;if(it.qty<=0){remC(id);return;}
+  saveC();updCart();rCartB();
+}
+function saveC(){localStorage.setItem('a_c',JSON.stringify(cart));}
+function updCart(){document.getElementById('cc').textContent=cart.reduce((s,i)=>s+i.qty,0);}
+function openCart(){
+  document.getElementById('cov').classList.add('open');
+  document.getElementById('csb').classList.add('open');
+  document.body.style.overflow='hidden';rCartB();
+}
+function closeCart(){
+  document.getElementById('cov').classList.remove('open');
+  document.getElementById('csb').classList.remove('open');
+  document.body.style.overflow='';
+}
+function rCartB(){
+  const c=document.getElementById('cbody');
+  if(!cart.length){
+    c.innerHTML=`<div class="ec"><i class="fa-solid fa-cart-shopping"></i><p style="margin-bottom:12px">Your cart is empty</p><button class="atc" style="width:170px;margin:auto" onclick="closeCart()">Shop Now</button></div>`;
+    document.getElementById('ctot').textContent='Rs. 0';return;
+  }
+  let tot=0;
+  c.innerHTML=cart.map(it=>{
+    const p=P.find(x=>x.id===it.id);if(!p)return'';
+    tot+=p.price*it.qty;
+    return`<div class="ci2">
+      <img src="${p.img}" alt="${p.name}">
+      <div class="cid">
+        <div class="cin">${p.name.substring(0,50)}…</div>
+        <div class="cip">Rs. ${(p.price*it.qty).toLocaleString()}</div>
+        <div class="qc">
+          <button class="qb" onclick="uQty(${p.id},-1)">−</button>
+          <span class="qd">${it.qty}</span>
+          <button class="qb" onclick="uQty(${p.id},1)">+</button>
+        </div>
+        <button class="rb" onclick="remC(${p.id})">Delete</button>
+      </div>
+    </div>`;
+  }).join('');
+  document.getElementById('ctot').textContent='Rs. '+tot.toLocaleString();
+}
+function checkout(){
+  if(!user){closeCart();openAuth();toast('Please sign in to checkout','err');return;}
+  if(!cart.length){toast('Your cart is empty','err');return;}
+  const tot=cart.reduce((s,i)=>{const p=P.find(x=>x.id===i.id);return s+p.price*i.qty;},0);
+  ords.unshift({id:Date.now(),date:new Date().toLocaleDateString('en-GB'),items:[...cart],total:tot,status:'Order Placed ✅'});
+  localStorage.setItem('a_o',JSON.stringify(ords));
+  cart=[];saveC();updCart();closeCart();toast('Order placed successfully! 🎉','ok');
+}
+
+// ── WISHLIST ──
+function tWish(e,id){
+  e.stopPropagation();
+  wish.includes(id)?(wish=wish.filter(i=>i!==id),toast('Removed from wishlist')):(wish.push(id),toast('Saved to wishlist ❤️','ok'));
+  localStorage.setItem('a_w',JSON.stringify(wish));applyF();
+}
+
+// ── LOCATION ──
+function toggleLoc(){
+  const m=document.getElementById('locModal');
+  m.classList.toggle('show');
+  if(m.classList.contains('show')){
+    const r=document.getElementById('delBtn').getBoundingClientRect();
+    m.style.left=r.left+'px';
+    m.style.top=r.bottom+4+'px';
+  }
+}
+function closeLoc(){document.getElementById('locModal').classList.remove('show');}
+function setLocation(){
+  const v=document.getElementById('locInput').value.trim();
+  if(!v){toast('Please enter a location','err');return;}
+  pickLoc(v);
+}
+function pickLoc(loc){
+  deliveryLoc=loc;
+  localStorage.setItem('a_loc',loc);
+  document.getElementById('delLoc').textContent=loc.length>12?loc.substring(0,12)+'…':loc;
+  closeLoc();
+  toast(`Delivering to ${loc} ✓`,'ok');
+}
+
+// ── LANGUAGE ──
+function changeLang(lang){
+  const names={en:'English',ur:'اردو',ar:'العربية',fr:'Français',de:'Deutsch',zh:'中文',es:'Español',hi:'हिन्दी',tr:'Türkçe',ja:'日本語'};
+  toast(`Language changed to ${names[lang] || lang}`,'ok');
+}
+
+// ── AUTH ──
+function isValidEmail(em){return/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(em);}
+function openAuth(){user?userMenu():(document.getElementById('authMo').classList.add('open'),document.body.style.overflow='hidden');}
+function cmo(id){document.getElementById(id).classList.remove('open');document.body.style.overflow='';}
+function showReg(){document.getElementById('lf').style.display='none';document.getElementById('rf').style.display='';document.getElementById('atitle').textContent='Create Account';}
+function showLogin(){document.getElementById('rf').style.display='none';document.getElementById('lf').style.display='';document.getElementById('atitle').textContent='Sign In';}
+
+function setErr(id,show){
+  const inp=document.getElementById(id);
+  const err=document.getElementById(id+'-err');
+  if(!inp||!err)return;
+  if(show){inp.classList.add('err-inp');err.classList.add('show');}
+  else{inp.classList.remove('err-inp');err.classList.remove('show');}
+}
+
+function checkPwStrength(pw){
+  const bar=document.getElementById('pw-bar'),lbl=document.getElementById('pw-label');
+  if(!pw){bar.style.display='none';lbl.textContent='';return;}
+  bar.style.display='block';
+  const hasLower=/[a-z]/.test(pw),hasUpper=/[A-Z]/.test(pw),hasNum=/[0-9]/.test(pw),hasSpecial=/[^a-zA-Z0-9]/.test(pw);
+  const score=(pw.length>=6?1:0)+(pw.length>=10?1:0)+(hasLower&&hasUpper?1:0)+(hasNum?1:0)+(hasSpecial?1:0);
+  if(score<=2){bar.className='pw-strength pw-weak';lbl.textContent='Weak password';lbl.style.color='var(--rd)';}
+  else if(score<=3){bar.className='pw-strength pw-medium';lbl.textContent='Medium strength';lbl.style.color='var(--or)';}
+  else{bar.className='pw-strength pw-strong';lbl.textContent='Strong password';lbl.style.color='var(--gn)';}
+}
+
+function login(){
+  const em=document.getElementById('le').value.trim(),pw=document.getElementById('lp').value;
+  let valid=true;
+  if(!isValidEmail(em)){setErr('le',true);valid=false;}else setErr('le',false);
+  if(!pw){setErr('lp',true);valid=false;}else setErr('lp',false);
+  if(!valid)return;
+  const us=JSON.parse(localStorage.getItem('a_us')||'[]'),f=us.find(u=>u.email===em&&u.password===pw);
+  if(!f){toast('Incorrect email or password','err');setErr('le',true);setErr('lp',true);return;}
+  user=f;localStorage.setItem('a_u',JSON.stringify(user));updNav();cmo('authMo');toast(`Welcome back, ${user.name}! 👋`,'ok');
+}
+
+function register(){
+  const nm=document.getElementById('rn').value.trim(),em=document.getElementById('re').value.trim(),
+        pw=document.getElementById('rp').value,pw2=document.getElementById('rp2').value;
+  let valid=true;
+  if(!nm){setErr('rn',true);valid=false;}else setErr('rn',false);
+  if(!isValidEmail(em)){setErr('re',true);valid=false;}else setErr('re',false);
+  if(pw.length<6){setErr('rp',true);valid=false;}else setErr('rp',false);
+  if(pw!==pw2){setErr('rp2',true);valid=false;}else setErr('rp2',false);
+  if(!valid)return;
+  const us=JSON.parse(localStorage.getItem('a_us')||'[]');
+  if(us.find(u=>u.email===em)){toast('An account with this email already exists','err');setErr('re',true);return;}
+  const nu={id:Date.now(),name:nm,email:em,password:pw};
+  us.push(nu);localStorage.setItem('a_us',JSON.stringify(us));
+  user=nu;localStorage.setItem('a_u',JSON.stringify(user));updNav();cmo('authMo');toast(`Account created! Welcome, ${nm}! 🎉`,'ok');
+}
+
+function updNav(){document.getElementById('nhi').textContent=user?`Hello, ${user.name.split(' ')[0]}`:'Hello, sign in';}
+function userMenu(){if(confirm(`Signed in as: ${user.name}\n${user.email}\n\nClick OK to sign out.`)){user=null;localStorage.removeItem('a_u');updNav();toast('Signed out successfully');}}
+
+// ── ORDERS ──
+function openOrd(){
+  if(!user){openAuth();toast('Please sign in to view orders','err');return;}
+  const b=document.getElementById('ob');
+  b.innerHTML=ords.length?ords.map(o=>`<div style="border:1px solid var(--br);border-radius:4px;margin-bottom:10px;overflow:hidden">
+    <div style="background:#F7F8F8;padding:9px 13px;display:flex;justify-content:space-between;font-size:12px">
+      <div><b>Order #${o.id}</b><br><span style="color:var(--mu)">${o.date}</span></div>
+      <div style="text-align:right"><b style="color:var(--gn)">${o.status}</b><br>Rs. ${o.total.toLocaleString()}</div>
+    </div>
+    <div style="padding:9px 13px;font-size:13px">${o.items.map(it=>{const p=P.find(x=>x.id===it.id);return p?`<div style="display:flex;align-items:center;gap:8px;margin-bottom:5px"><img src="${p.img}" style="width:36px;height:36px;object-fit:contain;border:1px solid #eee;border-radius:3px"><span>${p.name.substring(0,45)}… × ${it.qty}</span></div>`:'';}).join('')}</div>
+  </div>`).join(''):`<div style="text-align:center;padding:30px;color:var(--mu)"><i class="fa-solid fa-box-open" style="font-size:40px;display:block;margin-bottom:12px"></i>No orders yet</div>`;
+  document.getElementById('ordMo').classList.add('open');document.body.style.overflow='hidden';
+}
+
+// ── INFO MODAL ──
+function openInfo(title,body){
+  document.getElementById('infoTitle').textContent=title;
+  document.getElementById('infoBody').textContent=body;
+  document.getElementById('infoMo').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+// ── SELL / CUSTOMER SERVICE / PRIME ──
+function openSell(){openInfo('Sell on Amazon','Start selling on Amazon and reach millions of customers. List your products, manage inventory, and grow your business. Visit sellercentral.amazon.com to get started. Benefits include: access to 300M+ customers, Fulfillment by Amazon (FBA), and powerful seller analytics.');}
+function openCustomerService(){openInfo('Amazon Customer Service','Need help? Amazon customer service is available 24/7. You can get help with orders, returns, account issues, and more. Contact us via chat, phone, or email. Visit amazon.com/help for self-service options or to reach our support team.');}
+function openPrime(){openInfo('Amazon Prime','Amazon Prime gives you unlimited FREE Two-Day Shipping, Prime Video streaming, Prime Music, Prime Reading, exclusive deals, and much more — all for one low monthly or annual price. Start your free 30-day trial today!');}
+
+// ── PRODUCT DETAIL ──
+function openDet(id){
+  const p=P.find(x=>x.id===id);if(!p)return;
+  rec=[id,...rec.filter(x=>x!==id)].slice(0,8);
+  localStorage.setItem('a_r',JSON.stringify(rec));renderRec();
+  const d=Math.round((1-p.price/p.old)*100);
+  const rv=[
+    {n:'Ahmed Khan',d:'3 days ago',r:5,t:'Excellent product!',tx:'Extremely happy with my purchase. Quality is outstanding and delivery was very fast. Highly recommended to everyone.'},
+    {n:'Sara Ali',d:'1 week ago',r:4,t:'Great value for money',tx:'Exactly as described. Good packaging and arrived in perfect condition. Satisfied with the purchase.'},
+    {n:'Muhammad Usman',d:'2 weeks ago',r:5,t:'Amazing quality!',tx:'Exceeded my expectations. Build quality is superb and performance is top notch. Worth every penny paid.'},
+  ];
+  document.getElementById('dgrid').innerHTML=`
+    <div class="dim">
+      <img class="mi" id="mi" src="${p.img}" alt="${p.name}">
+      <div class="tr">${(p.imgs||[p.img]).map((im,i)=>`<img class="th${i===0?' act':''}" src="${im}" alt="" onclick="swImg(this,'${im}')" loading="lazy">`).join('')}</div>
+    </div>
+    <div class="di">
+      <div class="br">${p.brand}</div>
+      <h1>${p.name}</h1>
+      <div class="drt">${strs(p.rating)}&nbsp;<span style="color:var(--lk);font-size:14px">${p.rating} · ${p.reviews.toLocaleString()} ratings</span></div>
+      <div class="dpr">
+        <div class="dw2">M.R.P.: <s>Rs. ${p.old.toLocaleString()}</s></div>
+        <div><span class="sy">Rs. </span><span class="bg">${p.price.toLocaleString()}</span></div>
+        <div class="dsv">You save: Rs. ${(p.old-p.price).toLocaleString()} (${d}%)</div>
+      </div>
+      <div class="dft" style="margin:14px 0"><h3>About this item</h3><ul>${p.feats.map(f=>`<li>${f}</li>`).join('')}</ul></div>
+      <p style="font-size:14px;color:var(--mu);line-height:1.7">${p.desc}</p>
+      <div class="rvs">
+        <h2>Customer Reviews</h2>
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:14px">
+          <span style="font-size:38px;font-weight:700">${p.rating}</span>
+          <div>${strs(p.rating)}<br><span style="font-size:12px;color:var(--mu)">${p.reviews.toLocaleString()} ratings</span></div>
+        </div>
+        ${rv.map(r=>`<div class="rvi">
+          <div class="rvhd"><div class="rvav">${r.n.charAt(0)}</div><div><div class="rvnm">${r.n}</div><div class="rvdt">${r.d}</div></div></div>
+          <div style="margin-bottom:4px">${strs(r.r)}</div>
+          <div class="rvtl">${r.t}</div>
+          <div class="rvtx">${r.tx}</div>
+        </div>`).join('')}
+      </div>
+    </div>
+    <div>
+      <div class="bbx">
+        <div class="bprice">Rs. ${p.price.toLocaleString()}</div>
+        <div class="bdel"><i class="fa-solid fa-truck"></i> FREE Delivery by Tomorrow</div>
+        <div class="bdel"><i class="fa-solid fa-rotate-left"></i> Free 30-day returns</div>
+        <div class="bstk">${p.stock<=5?`Only ${p.stock} left in stock!`:'In Stock'}</div>
+        <select class="bqty">${[1,2,3,4,5].map(n=>`<option>Qty: ${n}</option>`).join('')}</select>
+        <button class="batc" onclick="addC(null,${p.id})">Add to Cart</button>
+        <button class="bnow" onclick="addC(null,${p.id});toast('Proceeding to checkout…','ok')">Buy Now</button>
+        <div class="bsec"><i class="fa-solid fa-lock"></i> Secure transaction</div>
+        <div style="margin-top:12px;font-size:13px;line-height:2">
+          <span style="color:var(--mu)">Ships from:</span> Amazon<br>
+          <span style="color:var(--mu)">Sold by:</span> ${p.brand}<br>
+          <span style="color:var(--mu)">Brand:</span> ${p.brand}
+        </div>
+      </div>
+      <div style="border:1px solid var(--br);border-radius:6px;padding:12px;margin-top:12px;font-size:13px">
+        <b style="display:block;margin-bottom:8px">Technical Details</b>
+        ${p.feats.map((f,i)=>`<div style="display:flex;padding:5px 0;border-bottom:1px solid #f5f5f5"><span style="color:var(--mu);min-width:100px">Spec ${i+1}</span><span>${f}</span></div>`).join('')}
+      </div>
+    </div>
+  `;
+  document.getElementById('dov').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+function swImg(el,src){document.getElementById('mi').src=src;document.querySelectorAll('.th').forEach(t=>t.classList.remove('act'));el.classList.add('act');}
+function closeDet(){document.getElementById('dov').classList.remove('open');document.body.style.overflow='';}
+
+// ── RECENTLY VIEWED ──
+function renderRec(){
+  if(!rec.length)return;
+  document.getElementById('recSec').style.display='';
+  document.getElementById('recr').innerHTML=rec.map(id=>{
+    const p=P.find(x=>x.id===id);if(!p)return'';
+    return`<div class="reci" onclick="openDet(${p.id})">
+      <img src="${p.img}" alt="${p.name}" loading="lazy">
+      <p>Rs. ${p.price.toLocaleString()}</p>
+    </div>`;
+  }).join('');
+}
+
+// ── TOAST ──
+function toast(msg,type=''){
+  const w=document.getElementById('tw'),d=document.createElement('div');
+  d.className='tst '+(type==='ok'?'ok':type==='err'?'err':'');
+  const ic=type==='ok'?'fa-circle-check':type==='err'?'fa-circle-xmark':'fa-circle-info';
+  const col=type==='ok'?'var(--gn)':type==='err'?'var(--rd)':'var(--or)';
+  d.innerHTML=`<i class="fa-solid ${ic}" style="color:${col}"></i>${msg}`;
+  w.appendChild(d);setTimeout(()=>d.remove(),3200);
+}
+
+// close modals on backdrop click
+document.querySelectorAll('.mo').forEach(m=>m.addEventListener('click',e=>{if(e.target===m){m.classList.remove('open');document.body.style.overflow='';}}));
+</script>
+</body>
+</html>
